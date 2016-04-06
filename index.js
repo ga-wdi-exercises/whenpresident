@@ -3,6 +3,7 @@ var parser  = require("body-parser");
 var hbs     = require("express-handlebars");
 var session = require("express-session");
 var cmongo  = require("connect-mongo");
+var env     = require("./env");
 var mongoose= require("./db/connection");
 
 var app     = express();
@@ -10,8 +11,10 @@ var SMongo  = cmongo(session);
 
 var Candidate = mongoose.model("Candidate");
 
+process.env.session_secret = env.session_secret;
+
 app.use(session({
-  secret: "some random string",
+  secret: process.env.session_secret,
   resave: false,
   saveUninitialized: false,
   store: new SMongo({
