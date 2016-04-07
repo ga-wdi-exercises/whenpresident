@@ -70,11 +70,24 @@ app.get("/login/twitter/callback", function(req, res){
   }
   request.post({url: url, oauth: oauth}, function(e, response){
     var auth_data = qstring.parse(response.body);
-    req.session.t_oauth_token         = auth_data.oauth_token;
-    req.session.t_oauth_token_secret  = auth_data.oauth_token_secret;
     req.session.t_user_id             = auth_data.user_id;
     req.session.t_screen_name         = auth_data.screen_name;
-    res.json(auth_data);
+    req.session.t_oauth               = {
+      consumer_key:     process.env.t_consumer_key,
+      consumer_secret:  process.env.t_consumer_secret,
+      token:            auth_data.oauth_token,
+      token_secret:     auth_data.oauth_token_secret
+    }
+    request.get({
+      url:    "https://api.twitter.com/1.1/users/show.json",
+      json:   true,
+      oauth:  req.session.t_oauth,
+      qs:     {
+        screen_name: req.session.t_screen_name
+      }
+    }, function(e, response){
+      res.json(response.body);
+    });
   });
 });
 
