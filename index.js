@@ -47,7 +47,7 @@ app.use(function(req, res, next){
 });
 
 app.get("/", function(req, res){
-  res.render("app-welcome");
+  res.render("candidates");
 });
 
 app.get("/login/twitter", function(req, res){

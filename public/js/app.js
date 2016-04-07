@@ -1,1 +1,11 @@
-console.log("Working!");
+"use strict";
+
+(function(){
+  
+  angular
+  .module("candidates", [
+    "ui.router",
+    "ngResource"
+  ]);
+
+})();
