@@ -12,7 +12,7 @@
 
   <div data-ng-repeat="position in showVM.candidate.positions">
     <p>{{position}}</p>
-    <button data-ng-if="showVM.candidate.isCurrentUser">Change your mind</button>
+    <button data-ng-if="showVM.candidate.isCurrentUser" data-ng-click="showVM.removePosition($index)">Change your mind</button>
   </div>
 
   <div data-ng-if="showVM.candidate.isCurrentUser">
