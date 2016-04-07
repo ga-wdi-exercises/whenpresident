@@ -40,6 +40,7 @@ app.engine(".hbs", hbs({
 }));
 app.use("/assets", express.static("public"));
 app.use("/bower", express.static("bower_components"));
+app.use(parser.json({extended: true}));
 app.use(function(req, res, next){
   res.locals.isProduction = (process.env.NODE_ENV == "production");
   twitter.checkIfSignedIn(req, res, function(){
