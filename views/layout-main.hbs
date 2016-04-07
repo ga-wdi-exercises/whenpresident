@@ -7,6 +7,10 @@
   </head>
   <body>
     <h1><a href="/">When President...</a></h1>
+    {{#if user}}
+    <h2>Welcome, {{user.name}}!</h2>
+    <img src="{{user.t_photo_url}}" alt="{{user.name}}" />
+    {{/if}}
     {{{body}}}
   </body>
 </html>
