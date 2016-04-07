@@ -86,7 +86,23 @@ app.get("/login/twitter/callback", function(req, res){
         screen_name: req.session.t_screen_name
       }
     }, function(e, response){
-      res.json(response.body);
+      var candidate_info = {
+        name:         response.body.name,
+        t_id:         response.body.id,
+        t_username:   response.body.screen_name,
+        t_photo_url:  response.body.profile_image_url
+      }
+      Candidate.findOneAndUpdate({t_id: response.body.id}, candidate_info, {new: true}).then(function(candidate){
+        if(candidate){
+          sendCandidate(candidate);
+        }else{
+          Candidate.create(candidate_info).then(sendCandidate);
+        }
+      });
+      function sendCandidate(candidate){
+        req.session.candidate_id = candidate._id;
+        res.json(candidate);
+      }
     });
   });
 });

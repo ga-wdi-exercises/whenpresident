@@ -4,7 +4,10 @@ var CandidateSchema = new mongoose.Schema(
   {
     name: String,
     year: Number,
-    positions: [String]
+    positions: [String],
+    t_id: String,
+    t_username: String,
+    t_photo_url: String
   }
 );
 
