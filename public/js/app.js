@@ -8,6 +8,7 @@
   ])
   .config([
     "$stateProvider",
+    "$locationProvider",
     Router
   ])
   .factory("Candidate", [
@@ -19,7 +20,8 @@
     candIndexCtrl
   ]);
 
-  function Router($stateProvider){
+  function Router($stateProvider, $locationProvider){
+    $locationProvider.html5Mode(true);
     $stateProvider
     .state("welcome", {
       url: "/",

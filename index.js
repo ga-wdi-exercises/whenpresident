@@ -47,10 +47,6 @@ app.use(function(req, res, next){
   });
 });
 
-app.get("/", function(req, res){
-  res.render("candidates");
-});
-
 app.get("/login/twitter", function(req, res){
   twitter.getSigninURL(req, res, function(url){
     res.redirect(url);
@@ -91,6 +87,10 @@ app.put("/api/candidates/:name", function(req, res){
   Candidate.findOneAndUpdate({name: req.params.name}, req.body.candidate, {new: true}).then(function(candidate){
     res.json(candidate);
   });
+});
+
+app.get("/*", function(req, res){
+  res.render("candidates");
 });
 
 app.listen(app.get("port"), function(){
