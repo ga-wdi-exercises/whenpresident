@@ -91,6 +91,20 @@ app.get("/login/twitter/callback", function(req, res){
   });
 });
 
+app.get("/apitest/:username", function(req, res){
+  request.get({
+    url:    "https://api.twitter.com/1.1/statuses/user_timeline.json",
+    json:   true,
+    oauth:  req.session.t_oauth,
+    qs:     {
+      screen_name: req.params.username,
+      count: 2
+    }
+  }, function(e, response){
+    res.json(response.body);
+  });
+});
+
 app.get("/candidates", function(req, res){
   Candidate.find({}).then(function(candidates){
     res.render("candidates-index", {
