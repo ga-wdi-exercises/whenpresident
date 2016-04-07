@@ -16,8 +16,8 @@
   </div>
 
   <div data-ng-if="showVM.candidate.isCurrentUser">
-    <textarea></textarea>
-    <button>Add a position</button>
+    <textarea data-ng-model="showVM.newPosition"></textarea>
+    <button data-ng-click="showVM.addPosition()">Add a position</button>
   </div>
 
 </div>

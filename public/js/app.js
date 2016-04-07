@@ -84,5 +84,18 @@
         $window.location.replace("/");
       });
     }
+    vm.addPosition = function(){
+      if(vm.candidate.positions.includes(vm.newPosition)){
+        console.log("Duplicate!");
+      }else{
+        vm.candidate.positions.push(vm.newPosition);
+        vm.newPosition = "";
+        vm.update();
+      }
+    }
+    vm.removePosition = function($index){
+      vm.candidate.positions.splice($index, 1);
+      vm.update();
+    }
   }
 })();
