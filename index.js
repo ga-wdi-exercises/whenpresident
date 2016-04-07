@@ -71,7 +71,8 @@ app.get("/candidates", function(req, res){
 app.get("/candidates/:name", function(req, res){
   Candidate.findOne({name: req.params.name}).then(function(candidate){
     res.render("candidates-show", {
-      candidate: candidate
+      candidate: candidate,
+      isCurrentUser: (candidate._id == req.session.candidate_id)
     });
   });
 });
