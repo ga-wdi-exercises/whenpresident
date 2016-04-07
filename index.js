@@ -121,12 +121,6 @@ app.get("/candidates/:name", function(req, res){
   });
 });
 
-app.post("/candidates", function(req, res){
-  Candidate.create(req.body.candidate).then(function(candidate){
-    res.redirect("/candidates/" + candidate.name);
-  });
-});
-
 app.post("/candidates/:name/delete", function(req, res){
   Candidate.findOneAndRemove({name: req.params.name}).then(function(){
     res.redirect("/candidates")
