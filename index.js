@@ -92,6 +92,16 @@ app.put("/api/candidates/:name", function(req, res){
   });
 });
 
+app.post("/api/candidates/:name/endorse", function(req, res){
+  var user_id = req.session.candidate_id;
+  Candidate.findOne({name: req.params.name}).then(function(candidate){
+    candidate.endorsedBy.push(user_id);
+    candidate.save().then(function(candidate){
+      res.json(candidate);
+    });
+  });
+});
+
 app.get("/*", function(req, res){
   res.render("candidates");
 });

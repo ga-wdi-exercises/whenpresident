@@ -51,7 +51,14 @@
 
   function Candidate($resource){
     var Candidate = $resource("/api/candidates/:name", {}, {
-      update: {method: "PUT"}
+      update: {method: "PUT"},
+      endorse: {
+        method: "POST",
+        url: "/api/candidates/:name/endorse",
+        params: {
+          name: "@name"
+        }
+      }
     });
     Candidate.all = Candidate.query();
     Candidate.find = function(property, value, callback){
@@ -96,6 +103,11 @@
     vm.removePosition = function($index){
       vm.candidate.positions.splice($index, 1);
       vm.update();
+    }
+    vm.endorse = function(){
+      Candidate.endorse(vm.candidate, function(response){
+        vm.candidate.endorsedBy = response.endorsedBy;
+      });
     }
   }
 })();
