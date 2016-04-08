@@ -39,8 +39,9 @@ app.engine(".hbs", hbs({
   defaultLayout:  "layout-main"
 }));
 app.use("/assets", express.static("public"));
-app.use(parser.urlencoded({extended: true}));
+app.use("/bower", express.static("bower_components"));
 app.use(function(req, res, next){
+  res.locals.isProduction = (process.env.NODE_ENV == "production");
   twitter.checkIfSignedIn(req, res, function(){
     next();
   });
