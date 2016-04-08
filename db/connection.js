@@ -1,10 +1,12 @@
 var mongoose  = require("mongoose");
 
+var ObjectId = mongoose.Schema.Types.ObjectId;
 var CandidateSchema = new mongoose.Schema(
   {
     name: String,
     year: Number,
     positions: [String],
+    endorsedBy: [ObjectId],
     t_id: String,
     t_username: String,
     t_photo_url: String
