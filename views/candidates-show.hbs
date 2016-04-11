@@ -5,6 +5,9 @@
   <input type="number" name="candidate[year]" placeholder="Year" value="{{candidate.year}}" />
   <button type="submit">Edit Platform</button>
 </form>
+<form method="post" action="/candidates/{{candidate.name}}/delete">
+  <button type="submit">Concede</button>
+</form>
 {{else}}
 <h2>That candidate couldn't be found!</h2>
 {{/if}}
