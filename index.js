@@ -38,6 +38,10 @@ app.get("/candidates/:name", function(req, res){
   });
 });
 
+app.post("/candidates", function(req, res){
+  res.json(req.body);
+});
+
 app.listen(app.get("port"), function(){
   console.log("It's aliiive!");
 });
