@@ -1,5 +1,11 @@
-{{#if candidate}}
+{{# if candidate}}
 <h2>{{candidate.name}} for President in {{candidate.year}}!</h2>
+
+<form action ="/candidates/{{candidate.name}}" method="post">
+<input type = "text" name ="candidate[name]" placeholder=" Candidate Name"  value="{{candidate.name}}"/>
+<input type = "number" name ="candidate[year]" placeholder="Year Running" value="{{candidate.year}}" />
+<button type="submit">Edit Platform</button>
+</form>
 {{else}}
 <h2>That candidate couldn't be found!</h2>
 {{/if}}
