@@ -1,5 +1,15 @@
-{{#if candidate}}
-<h2>{{candidate.name}} for President in {{candidate.year}}!</h2>
-{{else}}
+
+{{#unless candidate}}
 <h2>That candidate couldn't be found!</h2>
-{{/if}}
+{{else}}
+
+<h2>{{candidate.name}} for President in {{candidate.year}}!</h2>
+
+<form action="/candidates/{{candidate.name}}" method="post">
+  Edit Candidate:
+  <input type="text" name="candidate[name]" placeholder="add name" />
+  <input type="number" name="candidate[year]" placeholder="year" />
+  <button type="submit">Run for Office</button>
+</form>
+
+{{/unless}}
