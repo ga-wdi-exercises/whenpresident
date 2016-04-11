@@ -31,10 +31,16 @@ app.get("/candidates", function(req, res){
 });
 
 app.get("/candidates/:name", function(req, res){
-  Candidate.findOne({req.params.name}).then(function(candidate){
+  Candidate.findOne({name: req.params.name}).then(function(candidate){
     res.render("candidates-show", {
       candidate: candidate
     });
+  });
+});
+
+app.post("/candidates", function(req, res){
+  Candidate.create(req.body.candidate).then(function(candidate){
+    res.redirect("/candidates");
   });
 });
 
