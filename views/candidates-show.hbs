@@ -4,8 +4,12 @@
 <h2>That candidate couldn't be found!</h2>
 {{/if}}
 
-<form class="" action="/candidates/{{candidate.name}}" method="post">
+<form action="/candidates/{{candidate.name}}" method="post">
   <input type="text" name="candidate[name]" value="{{candidate.name}}">
   <input type="number" name="candidate[year]" placeholder="{{candidate.year}}">
   <button type="Submit">Update Candidate</button>
+</form>
+
+<form action="/candidates/{{candidate.name}}/delete" method="post">
+  <button type="Submit">Concede</button>
 </form>

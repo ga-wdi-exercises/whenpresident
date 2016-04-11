@@ -44,6 +44,12 @@ app.post("/candidates", function(req, res){
   });
 });
 
+app.post("/candidates/:name/delete", function(req, res){
+  Candidate.findOneAndRemove({name: req.params.name}).then(function(){
+    res.redirect("/candidates");
+  });
+});
+
 app.post("/candidates/:name", function (req, res){
 Candidate.findOneAndUpdate({name: req.params.name}, req.body.candidate, {new: true}).then(function(candidate){
     res.redirect("/candidates/" + candidate.name);
