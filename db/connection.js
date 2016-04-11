@@ -1,5 +1,7 @@
 var mongoose = require("mongoose");
-mongoose.connect("mongod://localhost/3001");
+mongoose.connect("mongod://localhost/whenpresident");
+
+var db = mongoose.connection;
 
 db.on("error", function(error){
   console.log(error);
@@ -8,6 +10,13 @@ db.on("error", function(error){
 db.once("open", function(){
   console.log("You are connected!!")
 });
+//======connection stuff above this line======
+var CandidiateSchema = new Schema ({
+  name: String,
+  year: Number,
+});
+
+mongoose.model("Candidate", CandidateSchema);
 
 var seedData = require("./seeds.json");
 module.exports = {
