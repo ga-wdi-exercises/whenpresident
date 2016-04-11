@@ -51,9 +51,9 @@ app.get("/candidates/:name", function(req, res){
 });
 
 app.post("/candidates", function(req, res){
-  // res.json(req.body);
+  // passes in the name stored in req.body as an argument to .create
   Candidate.create(req.body.candidate).then(function(){
-    res.redirect("/candidates");
+    res.redirect("/candidates/" + candidate.name);
   });
 });
 
