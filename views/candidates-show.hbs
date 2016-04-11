@@ -7,5 +7,7 @@
   <input type="number" name="candidate[year]" placeholder="Name" value="{{candidate.year}}">
   <button type="submit">run for office</button>
 </form>
-<!-- <button type="delete">END THEIR CAMPAIGN</button> -->
+<form method="post" action="/candidates/{{candidate.name}}/delete">
+  <button type="submit">concede</button>
+</form>
 {{/unless}}
