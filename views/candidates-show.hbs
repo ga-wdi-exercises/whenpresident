@@ -3,3 +3,9 @@
 {{else}}
 <h2>That candidate couldn't be found!</h2>
 {{/if}}
+
+<form action="/candidates/{{candidate.name}}" method="post">
+  <input type="text" name="candidate[name]" placeholder="Name" value="{{candidate.name}}"/>
+  <input type="number" name="candidate[year]" placeholder="Year" value="{{year}}" />
+  <button type="submit">Edit Platform</button>
+</form>
