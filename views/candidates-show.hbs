@@ -3,10 +3,12 @@
 {{else}}
 <h2>That candidate couldn't be found!</h2>
 {{/if}}
+<form method="post" action="/candidates/{{candidate.name}}/delete">
+  <button type="submit">Concede</button>
+</form>
+<form action="/candidates/{{candidate.name}}" method="post">
 
-<form action="/candidates" method="post">
   <input type="text" name="candidate[name]" placeholder="Name"  value="{{candidtate.name}}"/>
   <input type="number" name="candidate[year]" placeholder="Year" value="{{candidtate.year}}"/>
-  <button type="submit">Edit Platform</button>
+
 </form>
-<{/unless)}
