@@ -23,7 +23,7 @@ app.engine(".hbs", hbs({
 // tells where to look for static files
 app.use("/assets", express.static("public"));
 
-// configures the parser to support html forms
+// configures the parser to support html forms - the parser reads forms and gets data that was posted and reads it
 app.use(parser.urlencoded({extended: true}));
 
 // candidate model
@@ -35,9 +35,9 @@ app.get("/", function(req, res){
 });
 
 app.get("/candidates", function(req, res){
-  Candidate.find({}).then(function(candidates){
+  Candidate.find({}).then(function(candidatesFromDB){
     res.render("candidates-index", {
-      candidates: candidates
+      candidates: candidatesFromDB
   });
   });
 });
@@ -52,8 +52,8 @@ app.get("/candidates/:name", function(req, res){
 
 app.post("/candidates", function(req, res){
   // passes in the name stored in req.body as an argument to .create
-  Candidate.create(req.body.candidate).then(function(candidate){
-    res.redirect("/candidates/" + candidate.name);
+  Candidate.create(req.body.candidate).then(function(newCandidate){
+    res.redirect("/candidates/" + newCandidate.name);
   });
 });
 
