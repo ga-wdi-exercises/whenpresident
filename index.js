@@ -55,6 +55,14 @@ app.post("/candidates/:name/delete", function(req, res) {
   });
 });
 
+app.post("/candidates/:name/", function(req, res) {
+  var name = req.params.name;
+  Candidate.findOneAndUpdate({name: name}, req.body.candidate, {new: true})
+  .then(function(candidate) {
+    res.redirect("/candidates/" + candidate.name);
+  });
+});
+
 app.listen(app.get("port"), function(){
   console.log("It's aliiive!");
 });
