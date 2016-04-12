@@ -44,9 +44,6 @@ app.use(function(req, res, next){
   });
 });
 
-app.get("/", function(req, res){
-  res.render("candidates");
-});
 
 app.get("/login/twitter", function(req, res){
   twitter.getSigninURL(req, res, function(url){
@@ -56,55 +53,40 @@ app.get("/login/twitter", function(req, res){
 
 app.get("/login/twitter/callback", function(req, res){
   twitter.whenSignedIn(req, res, function(){
+    req.session.destroy();
     res.redirect("/");
   });
 });
 
-app.get("/candidates", function(req, res){
-  Candidate.find({}).then(function(candidates){
-    res.render("candidates-index", {
-      candidates: candidates
+app.get("/api/candidates", function(req, res){
+  Candidate.find({}).lean().exec().then(function(candidates){
+    candidates.forEach(function(candidate){
+      candidate.isCurrentUser = (candidate._id == req.session.candidate_id);
     });
+  res.json(candidates);
   });
 });
 
-app.get("/candidates/:name", function(req, res){
+app.get("/api/candidates/:name", function(req, res){
   Candidate.findOne({name: req.params.name}).then(function(candidate){
-    res.render("candidates-show", {
-      candidate: candidate,
-      isCurrentUser: (candidate._id == req.session.candidate_id)
-    });
+  res.json(candidate);
   });
 });
 
-app.post("/candidates/:name/delete", function(req, res){
+app.delete("/api/candidates/:name/delete", function(req, res){
   Candidate.findOneAndRemove({name: req.params.name}).then(function(){
-    res.redirect("/candidates")
+    res.json({success:true});
   });
 });
 
-app.post("/candidates/:name", function(req, res){
+app.put("/api/candidates/:name", function(req, res){
   Candidate.findOneAndUpdate({name: req.params.name}, req.body.candidate, {new: true}).then(function(candidate){
-    res.redirect("/candidates/" + candidate.name);
+  res.json(candidate);
   });
 });
 
-app.post("/candidates/:name/positions", function(req, res){
-  Candidate.findOne({name: req.params.name}).then(function(candidate){
-    candidate.positions.push(req.body.position);
-    candidate.save().then(function(){
-      res.redirect("/candidates/" + candidate.name);
-    });
-  });
-});
-
-app.post("/candidates/:name/positions/:index", function(req, res){
-  Candidate.findOne({name: req.params.name}).then(function(candidate){
-    candidate.positions.splice(req.params.index, 1);
-    candidate.save().then(function(){
-      res.redirect("/candidates/" + candidate.name);
-    });
-  });
+app.get("/*", function(req, res){ // the /* is a select all thing that helps get rid of the # in angular. This lets angular's HTML5 mode take over routing.
+  res.render("candidates");
 });
 
 app.listen(app.get("port"), function(){
