@@ -52,7 +52,7 @@ app.post("/candidates", function(req, res){
 app.post("/candidates/:name", function(req, res){
   Candidate.findOneAndUpdate({name: req.params.name}, req.body.candidate).then(function(candidate){
       res.redirect("/candidates/" + candidate.name);
-    }));
+    });
   });
 
 app.listen(app.get("port"), function(){
