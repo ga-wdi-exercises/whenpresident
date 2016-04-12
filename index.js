@@ -3,6 +3,7 @@ var express = require("express");              // Pulling library via the npm in
 var hbs     = require("express-handlebars");  // Pulling library via the npm install//
 // var db      = require("./db/connection");   //local file.  Use ./ only for require.//
 var mongoose = require("./db/connection");
+var parser = require("body-parser");
 
 var app     = express();
 
@@ -15,6 +16,7 @@ app.engine(".hbs", hbs({                //From Express handlebars.  Tells render
   defaultLayout:  "layout-main"
 }));
 app.use("/assets", express.static("public")); //any static asset will be in public folder (/assets)
+app.use(parser.urlencoded({extended: true})); //Configure parser to support html forms.//
 
 var Candidate = mongoose.model("Candidate");  //Pulled from model repository.//
 
@@ -28,7 +30,7 @@ app.get("/candidates", function(req, res){
       candidates: candidates  //This object is passed into .render method so it appears in view at /candidates. (renders candidates to index page.)//
   });
 });
-});//Explain what is going on here!?  What is a model?  Params?//
+});// Params- pull info from forms, url//
 
 app.get("/candidates/:name", function(req, res){
   // var desiredName = req.params.name;     //.name is available in params because name object is specified in .get("/candidates/:name")//
@@ -40,8 +42,15 @@ app.get("/candidates/:name", function(req, res){
   // });
   Candidate.findOne({name: req.params.name}).then(function(candidate) {
     res.render("candidates-show", {
-      candidate: candidate
+      candidate: candidate    //This is akin to @candidate in rails.  This instance of candidate re[resents the candidate name in the url.//]
     });
+  });
+});
+
+app.post("/candidates",  function(req, res) {
+  // res.json(req.body);                           //What exactly does this line do?//
+  Candidate.create(req.body.candidate).then(function(candidate) {
+    res.redirect("/candidates/" + candidate.name);
   });
 });
 
