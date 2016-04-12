@@ -5,11 +5,14 @@
 
 <h2>{{candidate.name}} for President in {{candidate.year}}!</h2>
 
-<form action="/candidates/{{candidate.name}}" method="post">
+<form action="/candidates/{{candidate.name}}" method="post" />
   Edit Candidate:
   <input type="text" name="candidate[name]" placeholder="add name" />
   <input type="number" name="candidate[year]" placeholder="year" />
   <button type="submit">Run for Office</button>
+</form>
+<form action='/candidates/{{candidate.name}}/delete' method='post' />
+  <button type="submit">delete candidacy</button>
 </form>
 
 {{/unless}}
