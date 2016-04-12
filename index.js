@@ -1,9 +1,9 @@
-var express = require("express");
-var parser  = require("body-parser");
-var hbs     = require("express-handlebars");
+var express   = require("express");
+var parser    = require("body-parser");
+var hbs       = require("express-handlebars");
 var Candidate = require("./db/connection").CandidateModel;
 
-var app     = express();
+var app = express();
 
 app.set("port", process.env.PORT || 3001);
 app.set("view engine", "hbs");
