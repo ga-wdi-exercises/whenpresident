@@ -9,4 +9,6 @@ var CandidateModel = mongoose.model("Candidate", CandidateSchema);
 
 mongoose.connect("mongodb://localhost/whenpresident");
 
-module.exports = mongoose;
+module.exports = {
+    CandidateModel: CandidateModel
+};
