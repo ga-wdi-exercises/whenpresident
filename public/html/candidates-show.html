@@ -1,4 +1,4 @@
 <div data-ng-if="showVM.candidate">
-<h2>{{showVM.candidate.name}}</h2>
-
+<h2>{{showVM.candidate.name}} for President in {{showVM.candidate.year}}</h2>
+<div data-ng-repeat="position in showVM.candidate.positions">{{position}}</div>
 </div>
