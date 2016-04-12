@@ -9,9 +9,6 @@
 </form>
 
 <form action="/candidates/{{candidate.name}}" method="post">
-  <label type="text">Name</label>
-  <input type="text" name="candidate[name]" placeholer="Name" value="{{candidate.name}}"/>
-  <label type="text">Year</label>
-  <input type="text" name="candidate[year]" placeholer="Year" value="{{candidate.year}}" />
+  {{< candidate-form}}
   <button type="Submit">Edit Candidate</button>
 </form>
