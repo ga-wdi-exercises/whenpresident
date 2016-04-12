@@ -6,7 +6,7 @@ var seedData = require("./seeds.json");
 var Candidate = mongoose.model("Candidate");  //get candidate model from mongoose.  "Candidate" has to match the model name in the connection.js file. (from line 14)//
 
 Candidate.remove({}).then(function() {  //since the object is empty, this method removes everything//
-  Candidate.collection.insert(seedData).then(function() {
+  Candidate.collection.insert(seedData).then(function() {   //Create a collection using the JSON contained in our seed file.//
     process.exit();   //After doing node [file_name], Once data is imported, stop.//
   });
 });

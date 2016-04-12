@@ -23,12 +23,12 @@ app.get("/", function(req, res){
 });
 
 app.get("/candidates", function(req, res){
-  Candidate.find({}).then(function() {  //Find all candidates first.  Find returns array; findOne returns the first match.//
+  Candidate.find({}).then(function(candidates) {  //Find all candidates first.  Find returns array; findOne returns the first match.//
     res.render("candidates-index", {
       candidates: candidates  //This object is passed into .render method so it appears in view at /candidates. (renders candidates to index page.)//
   });
 });
-});
+});//Explain what is going on here!?//
 
 app.get("/candidates/:name", function(req, res){
   var desiredName = req.params.name;     //.name is available in params because name object is specified in .get("/candidates/:name")//
