@@ -6,6 +6,7 @@ var mongoose = require("./db/connection");
 var app     = express();
 
 var Candidate = mongoose.model("Candidate");
+
 app.set("port", process.env.PORT || 3001);
 app.set("view engine", "hbs");
 app.engine(".hbs", hbs({
@@ -45,7 +46,7 @@ app.post("/candidates", function(req, res){
 
 app.post("/candidates/:name/delete", function(req, res){
   Candidate.findOneAndRemove({name: req.params.name}).then(function(){
-    res.redirect("/candidates")
+    res.redirect("/candidates");
   });
 });
 
