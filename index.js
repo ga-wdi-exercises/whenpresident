@@ -1,12 +1,14 @@
+
 var express = require("express");              // Pulling library via the npm install//
 var hbs     = require("express-handlebars");  // Pulling library via the npm install//
-var db      = require("./db/connection");   //local file//
+// var db      = require("./db/connection");   //local file.  Use ./ only for require.//
+var mongoose = require("./db/connection");
 
 var app     = express();
 
 app.set("port", process.env.PORT || 3001);
 app.set("view engine", "hbs");
-app.engine(".hbs", hbs({                //From Express handlebars//
+app.engine(".hbs", hbs({                //From Express handlebars.  Tells render what to do.//
   extname:        ".hbs",
   partialsDir:    "views/",
   layoutsDir:     "views/",
@@ -21,9 +23,9 @@ app.get("/", function(req, res){
 });
 
 app.get("/candidates", function(req, res){
-  Candidate.find({}).then(function() {
+  Candidate.find({}).then(function() {  //Find all candidates first.  Find returns array; findOne returns the first match.//
     res.render("candidates-index", {
-      candidates: db.candidates  //This object is passed into .render method so it appears in view at /candidates.//
+      candidates: candidates  //This object is passed into .render method so it appears in view at /candidates. (renders candidates to index page.)//
   });
 });
 });

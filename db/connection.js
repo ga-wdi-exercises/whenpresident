@@ -1,5 +1,8 @@
-var mongoose = require("mongoose");  //variable that utilizes mongoose library//
+//The purpose of this file is to connect to the database.//
 
+var mongoose = require("mongoose");  //variable that utilizes mongoose library (from node_modules folder)//
+
+//Create schema.//
 var CandidateSchema = new mongoose.Schema(
     {
       name: String,
@@ -7,6 +10,7 @@ var CandidateSchema = new mongoose.Schema(
     }
 );
 
+//Save schema to database.//
 mongoose.model("Candidate", CandidateSchema);
 
 //connect to database via url//
