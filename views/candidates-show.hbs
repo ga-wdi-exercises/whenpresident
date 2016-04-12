@@ -2,4 +2,15 @@
 <h2>{{candidate.name}} for President in {{candidate.year}}!</h2>
 {{else}}
 <h2>That candidate couldn't be found!</h2>
-{{/if}}
+{{else}}
+<h2>{{candidate.name}} for President in {{candidate.year}}!</h2>
+<form method="post" action="/candidates/{{candidate.name}}/delete">
+  <button type="submit">Concede</button>
+</form>
+
+<form action="/cadidates/{{candidate.name}}" method="post">
+  <input type="text" name="candidate[name]" placeholder="Name" value="{{candidate.name}}"/>
+  <input type="numer" name="candidate[year]" placeholder="Year" value="{{candidate.year}}"/>
+  <button type="submit">Edit Platform</button>
+</form>
+{{/unless}}
