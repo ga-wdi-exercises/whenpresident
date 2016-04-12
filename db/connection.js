@@ -10,11 +10,14 @@ mongoose.connect("mongodb://localhost/whenpresident");
 // db.once('open', function(){
 //   console.log("You are connected!!")
 // });
-var CandidateSchema = new mongoose.Schema ({
-  name: String,
-  year: Number,
-});
+var CandidateSchema = new mongoose.Schema(
+  {
+    name: String,
+    year: Number
+  }
+);
+
 
 mongoose.model("Candidate", CandidateSchema);
 
-module.exports = mongoose;
+module.exports = mongoose
