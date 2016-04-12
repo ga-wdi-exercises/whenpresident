@@ -17,7 +17,6 @@ function candidateNewCtrl(req, res, Candidate) {
 }
 
 function candidateShowCtrl(req, res, Candidate) {
-  var desiredName = req.params.name;
   var candidateOutput;
   Candidate.find({}).then(function(candidates) {
     candidates.forEach(function(candidate){
