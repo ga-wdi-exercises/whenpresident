@@ -1,10 +1,14 @@
 {{#if candidate}}
 <h2>{{candidate.name}} for President in {{candidate.year}}!</h2>
 
+
 <form action="/candidates/{{candidates.name}}" method="post">
   <input type="text" name="candidate[name]" placeholder="Name" value="{{candidate.name}}"/>
   <input type="text" name="candidate[year]" placeholder="Year" value="{{candidate.year}}"/>
   <button type="submit">Run for Office</button>
+</form>
+<form action="/candidates/{{candidate.name}}/delete" method="post">
+  <button type="submit">Drop out</button>
 </form>
 
 {{else}}
