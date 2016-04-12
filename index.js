@@ -38,6 +38,12 @@ app.get("/candidates/:name", function(req, res){
   });
 });
 
+app.post("/candidates", function(req, res){
+  Candidate.create(req.body.candidate).then(function(cacandidate){
+    res.redirect("/candidates/" + candidate.name);
+  });
+});
+
 app.listen(app.get("port"), function(){
   console.log("It's aliiive!");
 });

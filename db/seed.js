@@ -1,5 +1,5 @@
 var mongoose = require("./connection");
-var seedData = require("./seeds.json");
+var seedData = require("./seeds");
 
 var Candidate = mongoose.model("Candidate");
 
