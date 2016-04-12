@@ -1,6 +1,7 @@
 var express = require("express");
+var parser  = require("body-parser");
 var hbs     = require("express-handlebars");
-var db      = require("./db/connection");
+var Candidate = require("./db/connection").CandidateModel;
 
 var app     = express();
 
@@ -13,27 +14,44 @@ app.engine(".hbs", hbs({
   defaultLayout:  "layout-main"
 }));
 app.use("/assets", express.static("public"));
+app.use(parser.urlencoded({extended: true}));
 
 app.get("/", function(req, res){
   res.render("app-welcome");
 });
 
 app.get("/candidates", function(req, res){
-  res.render("candidates-index", {
-    candidates: db.candidates
+  Candidate.find({}).then(function(candidates) {
+    res.render("candidates-index", {
+      candidates: candidates
+    });
+  });
+});
+
+app.post("/candidates", function(req, res) {
+  Candidate.create(req.body.candidate).then(function() {
+    res.redirect("/candidates");
   });
 });
 
 app.get("/candidates/:name", function(req, res){
   var desiredName = req.params.name;
   var candidateOutput;
-  db.candidates.forEach(function(candidate){
-    if(desiredName === candidate.name){
-      candidateOutput = candidate;
-    }
+  Candidate.find({}).then(function(candidates) {
+    candidates.forEach(function(candidate){
+      if(desiredName === candidate.name){
+        candidateOutput = candidate;
+      }
+    });
+    res.render("candidates-show", {
+      candidate: candidateOutput
+    });
   });
-  res.render("candidates-show", {
-    candidate: candidateOutput
+});
+
+app.post("/candidates/:name/delete", function(req, res) {
+  Candidate.findOneAndRemove({name: req.params.name}).then(function() {
+    res.redirect("/candidates");
   });
 });
 
