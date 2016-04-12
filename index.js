@@ -28,18 +28,20 @@ app.get("/candidates", function(req, res){
       candidates: candidates  //This object is passed into .render method so it appears in view at /candidates. (renders candidates to index page.)//
   });
 });
-});//Explain what is going on here!?//
+});//Explain what is going on here!?  What is a model?  Params?//
 
 app.get("/candidates/:name", function(req, res){
-  var desiredName = req.params.name;     //.name is available in params because name object is specified in .get("/candidates/:name")//
-  var candidateOutput;
-  db.candidates.forEach(function(candidate){    //Equivalent to @candidate.findparams[:id]//
-    if(desiredName === candidate.name){
-      candidateOutput = candidate;
-    }
-  });
-  res.render("candidates-show", {
-    candidate: candidateOutput
+  // var desiredName = req.params.name;     //.name is available in params because name object is specified in .get("/candidates/:name")//
+  // var candidateOutput;
+  // db.candidates.forEach(function(candidate){    //Equivalent to @candidate.findparams[:id]//
+  //   if(desiredName === candidate.name){
+  //     candidateOutput = candidate;
+  //   }
+  // });
+  Candidate.findOne({name: req.params.name}).then(function(candidate) {
+    res.render("candidates-show", {
+      candidate: candidate
+    });
   });
 });
 
