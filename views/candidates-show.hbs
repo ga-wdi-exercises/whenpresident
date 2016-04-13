@@ -1,5 +1,9 @@
 {{#if candidate}}
 <h2>{{candidate.name}} for President in {{candidate.year}}!</h2>
+
+<input type="text" name="candidate[name]" placeholder="Name" />
+<input type="number" name="candidate[year]" placeholder="Year"/>
+<button type="submit">Edit Platform</button>
 {{else}}
 <h2>That candidate couldn't be found!</h2>
 {{/if}}
