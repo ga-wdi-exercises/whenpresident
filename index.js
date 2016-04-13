@@ -102,6 +102,11 @@ app.post("/candidates/:name/positions/:index", function(req, res){
   });
 });
 
+// Default to the candidates index if path not found
+app.get("/*", function(req, res) {
+  res.render("candidates");
+});
+
 app.listen(app.get("port"), function(){
   console.log("It's aliiive!");
 });

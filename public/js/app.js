@@ -8,11 +8,16 @@
       "candidates"
     ])
     .config([
+      "$locationProvider",
       "$stateProvider",
       Router
     ]);
 
-  function Router($stateProvider) {
+  function Router($locationProvider, $stateProvider) {
+    // Acknowledge HTML5 specific base tag routing
+    $locationProvider.html5Mode(true);
+
+    // Setup state routing
     $stateProvider
       .state("welcome", {
         url:         "/",
@@ -25,5 +30,4 @@
         controllerAs: "indexVM"
       });
   }
-
 })();
