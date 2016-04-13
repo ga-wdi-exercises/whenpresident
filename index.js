@@ -44,9 +44,6 @@ app.use(function(req, res, next){
   });
 });
 
-app.get("/*", function(req, res){
-  res.render("candidates");
-});
 
 app.get("/login/twitter", function(req, res){
   twitter.getSigninURL(req, res, function(url){
@@ -106,6 +103,10 @@ app.post("/candidates/:name/positions/:index", function(req, res){
       res.redirect("/candidates/" + candidate.name);
     });
   });
+});
+
+app.get("/*", function(req, res){
+  res.render("candidates");
 });
 
 app.listen(app.get("port"), function(){
