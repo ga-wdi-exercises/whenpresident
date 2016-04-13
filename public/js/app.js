@@ -9,6 +9,7 @@
   ])
   .config([
     "$stateProvider",
+    "$locationProvider",
     Router
   ])
   .factory("Candidate", [
@@ -21,7 +22,8 @@
   ]);
 
 
-  function Router($stateProvider){
+  function Router($stateProvider, $locationProvider){
+    $locationProvider.html5Mode(true);
     $stateProvider
     .state("welcome", {
       url: "/",
