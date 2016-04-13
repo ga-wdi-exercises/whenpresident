@@ -27,6 +27,28 @@
     CandidateShowCtrlFunction
   ])
 
+  function RouterFunction($stateProvider, $locationProvider, $urlRouterProvider){
+    $locationProvider.html5Mode(true);
+    $stateProvider
+    .state("welcome", {
+      url: "/",
+      templateUrl: "/assets/html/app-welcome.html",
+      controller: "CandidateIndexController",
+      controllerAs: "indexVM"
+    })
+    .state("index", {
+      url: "/candidates",
+      templateUrl: "/assets/html/candidates-index.html"
+    })
+    .state("show", {
+      url: "/candidates/:name",
+      templateUrl: "assets/html/candidates-show.html",
+      controller: "CandidateShowController",
+      controllerAs: "showVM"
+    });
+    $urlRouterProvider.otherwise("/");
+  }
+
   function FactoryFunction($resource){
     var Candidate = $resource("/api/candidates/:name", {}, {
       update: {method: "PUT"}
@@ -53,30 +75,14 @@
     var vm = this;
     Candidate.find("name", $stateParams.name, function(candidate){
       vm.candidate = candidate;
+    vm.update = function(){
+      Candidate.update({name: vm.candidate.name}, {candidate: vm.candidate}, function(){
+        console.log("Doooone!");
+      });
+    };
     });
   }
 
-  function RouterFunction($stateProvider, $locationProvider, $urlRouterProvider){
-    $locationProvider.html5Mode(true);
-    $stateProvider
-    .state("welcome", {
-      url: "/",
-      templateUrl: "/assets/html/app-welcome.html",
-      controller: "CandidateIndexController",
-      controllerAs: "indexVM"
-    })
-    .state("index", {
-      url: "/candidates",
-      templateUrl: "/assets/html/candidates-index.html"
-    })
-    .state("show", {
-      url: "/candidates/:name",
-      templateUrl: "assets/html/candidates-show.html",
-      controller: "CandidateShowController",
-      controllerAs: "showVM"
-    })
-    $urlRouterProvider.otherwise("/");
-  }
 
 
 

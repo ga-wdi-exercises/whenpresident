@@ -37,6 +37,7 @@ app.engine(".hbs", hbs({
   defaultLayout:  "layout-main"
 }));
 app.use("/assets", express.static("public"));
+app.use(parser.json({extended: true}));
 app.use(parser.urlencoded({extended: true}));
 app.use(function(req, res, next){
   twitter.checkIfSignedIn(req, res, function(){
@@ -61,7 +62,7 @@ app.get("/api/candidates", function(req, res){
   Candidate.find({}).lean().exec().then(function(candidates){
     candidates.forEach(function(candidate){
       candidate.isCurrentUser = (candidate.id == req.session.candidate_id);
-    })
+    });
     res.json(candidates);
   });
 });

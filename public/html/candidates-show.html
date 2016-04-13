@@ -11,7 +11,7 @@
     <form action="/candidates/{{showVM.candidate.name}}" method="post">
       <input type="text" name="candidate[name]" placeholder="Name" value="{{showVM.candidate.name}}" />
       <input type="number" name="candidate[year]" placeholder="Year" value="{{showVM.candidate.year}}" />
-      <button type="submit">Edit Platform</button>
+      <button data-ng-click="showVM.update()">Edit Platform</button>
     </form>
   </div>
 
