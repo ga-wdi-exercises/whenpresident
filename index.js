@@ -21,9 +21,6 @@ app.use(parser.urlencoded({extended: true}));
 app.get("/", function(req, res){
   res.render("app-welcome");
 });
-// app.get("/", function(req, res){
-//   res.render("candidates");
-// });
 
 app.get("/candidates", function(req, res){
   Candidate.find({}).then(function(candidates){
@@ -59,11 +56,6 @@ app.post("/candidates/:name", function(req, res) {
   });
 });
 
-
-
-
-
-
 app.get("/api/candidates", function(req, res){
   Candidate.find({}).then(function(candidates){
     res.json(candidates);
@@ -87,10 +79,6 @@ app.put("/api/candidates/:name", function(req, res) {
     res.json(candidate);
   });
 });
-
-
-
-
 
 
 app.listen(app.get("port"), function(){
