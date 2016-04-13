@@ -63,7 +63,6 @@ app.get("/login/twitter/callback", function(req, res){
 app.get("/logout", function(req, res){
   req.session.destroy();
   res.redirect("/");
-  });
 });
 
 app.get("/api/candidates", function(req, res){
@@ -86,7 +85,7 @@ app.get("/api/candidates/:name", function(req, res){
   });
 });
 
-app.delete("/api/candidates/:name/delete", function(req, res){
+app.delete("/api/candidates/:name", function(req, res){
   Candidate.findOneAndRemove({name: req.params.name}).then(function(){
     res.json({success:true});
     // res.redirect("/candidates")
