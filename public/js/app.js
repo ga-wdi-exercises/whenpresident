@@ -23,6 +23,7 @@
   .controller("candidateShowController", [
     "CandidateFactory",
     "$stateParams",
+    "$window",
     candidateShowController
   ]);
   function Router($stateProvider, $locationProvider, $urlRouterProvider){
@@ -65,7 +66,7 @@
     var vm = this;
     vm.candidates = CandidateFactory.all;
   }
-  function candidateShowController(CandidateFactory, $stateParams){
+  function candidateShowController(CandidateFactory, $stateParams, $window){
     var vm = this;
     CandidateFactory.find("name", $stateParams.name, function(candidate){
       vm.candidate = candidate;
@@ -74,6 +75,11 @@
       Candidate.update({name: vm.candidate.name}, {candidate: vm.candidate}, function(){
         console.log("Done");
       });
+    };
+    vm.delete = function(){
+      CandidateFactory.remove({name: vm.candidate.name}, function(){
+        $window.location.replace("/");
+      })
     }
   }
 
