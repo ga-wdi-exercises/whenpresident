@@ -43,10 +43,6 @@ app.use(function(req, res, next){
     next();
   });
 });
-// angular route controlling
-// app.get("/", function(req, res){
-//   res.render("candidates");
-// });
 
 app.get("/login/twitter", function(req, res){
   twitter.getSigninURL(req, res, function(url){
@@ -60,16 +56,19 @@ app.get("/login/twitter/callback", function(req, res){
   });
 });
 
-// api namespaces this, want to avoid collision with angular
+// 'api' namespaces this to avoid collision with angular
 app.get("/api/candidates", function(req, res){
-  Candidate.find({}).then(function(candidates){
+  Candidate.find({}).lean().exec().then(function(candidates){
+    candidates.forEach(function(candidate){
+      candidate.isCurrentUser = (candidate.id == req.session.candidate_id);
+    })
     res.json(candidates);
   });
 });
 
 app.get("/api/candidates/:name", function(req, res){
   Candidate.findOne({name: req.params.name}).then(function(candidate){
-    candidate.isCurrentUser = (candidate.id == req.session.candidate_id);
+    // candidate.isCurrentUser = (candidate.id == req.session.candidate_id);
     res.json(candidate);
   });
 });

@@ -1,0 +1,30 @@
+<div data-ng-if="!showVM.candidate">
+  <h2>That candidate couldn't be found!</h2>
+</div>
+
+<div data-ng-if="showVM.candidate">
+  <h2>{{showVM.candidate.name}} for President in {{showVM.candidate.year}}!</h2>
+  <div data-ng-if="showVM.candidate.isCurrentUser">
+    <form method="post" action="/candidates/{{candidate.name}}/delete">
+      <button type="submit">Concede</button>
+    </form>
+    <form action="/candidates/{{showVM.candidate.name}}" method="post">
+      <input type="text" name="candidate[name]" placeholder="Name" value="{{showVM.candidate.name}}" />
+      <input type="number" name="candidate[year]" placeholder="Year" value="{{showVM.candidate.year}}" />
+      <button type="submit">Edit Platform</button>
+    </form>
+  </div>
+
+  <div data-ng-repeat="position in showVM.candidate.positions">
+    <p>{{position}}</p>
+    <form action="/candidates/{{../showVM.candidate.name}}/positions/{{index}}" method="post">
+      <button data-ng-if="showVM.candidate.isCurrentUser" type="submit">Change your mind</button>
+    </form>
+  </div>
+
+  <div data-ng-if="showVM.candidate.isCurrentUser">
+    <textarea></textarea>
+    <button type="submit">Add a position</button>
+  </div>
+
+</div>
