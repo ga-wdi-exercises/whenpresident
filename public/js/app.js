@@ -9,6 +9,7 @@
   .config([
     "$stateProvider",
     "$locationProvider",
+    "$urlRouterProvider",
     Router
   ])
   .factory("Candidate", [
@@ -20,12 +21,12 @@
     candIndexCtrl
   ]);
 
-  function Router($stateProvider, $locationProvider){
+  function Router($stateProvider, $locationProvider, $urlRouterProvider){
     $locationProvider.html5Mode(true);
     $stateProvider
     .state("welcome", {
       url: "/",
-      templateUrl: "/assets/html/candidates-welcome.html" //why is this .html instead of .hbs?
+      templateUrl: "/assets/html/candidates-welcome.html"
     })
     .state("index", {
       url: "/candidates",
@@ -33,6 +34,7 @@
       controller: "candIndexCtrl",
       controllerAs: "indexVM"
     });
+    $urlRouterProvider.otherwise("/");
   }
 
   function CandidateFactory($resource){
