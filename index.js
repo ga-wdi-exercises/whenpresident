@@ -61,6 +61,7 @@ app.get("/logout", function(req, res){
   res.redirect("/");
 });
 
+// handles request to display all the candidates
 app.get("/api/candidates", function(req, res){
   Candidate.find({}).lean().exec().then(function(candidates){
     candidates.forEach(function(candidate){
@@ -70,25 +71,31 @@ app.get("/api/candidates", function(req, res){
   });
 });
 
+//displays individual candidates
 app.get("/api/candidates/:name", function(req, res){
   Candidate.findOne({name: req.params.name}).then(function(candidate){
     res.json(candidate);
   });
 });
 
+// handles request to delete a candidate
 app.delete("/api/candidates/:name", function(req, res){
   Candidate.findOneAndRemove({name: req.params.name}).then(function(){
     res.json({success: true});
   });
 });
 
+// handles request to update a candidate
 app.put("/api/candidates/:name", function(req, res){
+  console.log("What is passed in the params: ", req.params.name);
+  console.log("What is passed in to the body: ", req.body.candidate);
   Candidate.findOneAndUpdate({name: req.params.name}, req.body.candidate, {new: true}).then(function(candidate){
+    console.log("updated candidate: ", candidate);
     res.json(candidate);
   });
 });
 
-// * wildcard makes sure $locationProvider / html5 mode works on everything after the /
+// handles request for root path, * wildcard makes sure $locationProvider / html5 mode works on everything after the /
 app.get("/*", function(req, res){
   res.render("candidates");
 });
