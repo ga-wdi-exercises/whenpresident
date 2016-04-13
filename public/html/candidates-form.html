@@ -1,0 +1,11 @@
+<form>
+  <input type="text" placeholder="Name" data-ng-model="candidate.name" />
+  <input type="number" placeholder="Year" data-ng-model="candidate.year" />
+  <div data-ng-if="action == 'edit'">
+    <button data-ng-click="delete()">Concede</button>
+    <button data-ng-click="update()">Edit Platform</button>
+  </div>
+  <div data-ng-if="action == 'create'">
+    <button data-ng-click="create()">Run for President</button>
+  </div>
+</form>

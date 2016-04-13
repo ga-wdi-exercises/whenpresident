@@ -2,112 +2,102 @@
 
 (function(){
   angular
-  .module("candidates", [
-    "ui.router",
-    "ngResource"
+  .module("whenPresident", [
+    "ngResource",
+    "ui.router"
   ])
   .config([
     "$stateProvider",
-    "$locationProvider",
     "$urlRouterProvider",
+    "$locationProvider",
     Router
   ])
-  .factory("Candidate", [
-    "$resource",
-    Candidate
-  ])
-  .controller("candIndexCtrl", [
-    "Candidate",
-    candIndexCtrl
-  ])
-  .controller("candShowCtrl", [
-    "Candidate",
-    "$stateParams",
-    "$window",
-    candShowCtrl
-  ]);
+  .factory("Candidate", Candidate)
+  .directive("candidateForm", candidateForm)
+  .controller("indexCtrl", indexCtrl)
+  .controller("showCtrl", showCtrl);
 
-  function Router($stateProvider, $locationProvider, $urlRouterProvider){
+  function Router($stateProvider, $urlRouterProvider, $locationProvider){
     $locationProvider.html5Mode(true);
     $stateProvider
     .state("welcome", {
       url: "/",
-      templateUrl: "/assets/html/candidates-welcome.html"
+      templateUrl: "/public/html/app-welcome.html"
     })
     .state("index", {
       url: "/candidates",
-      templateUrl: "/assets/html/candidates-index.html",
-      controller: "candIndexCtrl",
-      controllerAs: "indexVM"
+      templateUrl: "/public/html/candidates-index.html",
+      controller: "indexCtrl",
+      controllerAs: "vm"
     })
     .state("show", {
       url: "/candidates/:name",
-      templateUrl: "/assets/html/candidates-show.html",
-      controller: "candShowCtrl",
-      controllerAs: "showVM"
+      templateUrl: "/public/html/candidates-show.html",
+      controller: "showCtrl",
+      controllerAs: "vm"
     });
     $urlRouterProvider.otherwise("/");
   }
 
+  Candidate.$inject = [ "$resource" ];
   function Candidate($resource){
     var Candidate = $resource("/api/candidates/:name", {}, {
-      update: {method: "PUT"},
-      endorse: {
-        method: "POST",
-        url: "/api/candidates/:name/endorse",
-        params: {
-          name: "@name"
-        }
-      }
+      update: {method: "PUT"}
     });
     Candidate.all = Candidate.query();
-    Candidate.find = function(property, value, callback){
-      Candidate.all.$promise.then(function(){
-        Candidate.all.forEach(function(candidate){
-          if(candidate[property] == value) callback(candidate);
-        });
-      });
-    }
     return Candidate;
   }
 
-  function candIndexCtrl(Candidate){
+  candidateForm.$inject = [ "$state", "$stateParams", "Candidate" ];
+  function candidateForm($state, $stateParams, Candidate){
+    var directive = {};
+    directive.templateUrl = "/public/html/candidates-form.html";
+    directive.scope = {
+      candidate: "=",
+      action: "@"
+    }
+    directive.link = function(scope){
+      var originalName = $stateParams.name;
+      scope.create = function(){
+        Candidate.save({candidate: scope.candidate}, function(response){
+          var candidate = new Candidate(response);
+          Candidate.all.push(candidate);
+          $state.go("show", {name: candidate.name});
+        });
+      }
+      scope.update = function(){
+        Candidate.update({name: originalName}, {candidate: scope.candidate}, function(candidate){
+          console.log("Updated!");
+          $state.go("show", {name: candidate.name});
+        });
+      }
+      scope.delete = function(){
+        var index = Candidate.all.indexOf(scope.candidate);
+        Candidate.remove({name: originalName}, function(response){
+          Candidate.all.splice(index, 1);
+          $state.go("index");
+        });
+      }
+    }
+    return directive;
+  }
+
+  indexCtrl.$inject = [ "Candidate" ];
+  function indexCtrl(Candidate){
     var vm = this;
     vm.candidates = Candidate.all;
   }
 
-  function candShowCtrl(Candidate, $stateParams, $window){
+  showCtrl.$inject = [ "$stateParams", "Candidate" ];
+  function showCtrl($stateParams, Candidate){
     var vm = this;
-    Candidate.find("name", $stateParams.name, function(candidate){
-      vm.candidate = candidate;
+    Candidate.all.$promise.then(function(){
+      Candidate.all.forEach(function(candidate){
+        if(candidate.name === $stateParams.name){
+          vm.candidate = candidate;
+        }
+      });
     });
-    vm.update = function(){
-      Candidate.update({name: vm.candidate.name}, {candidate: vm.candidate}, function(){
-        console.log("Done!");
-      });
-    }
-    vm.delete = function(){
-      Candidate.remove({name: vm.candidate.name}, function(){
-        $window.location.replace("/");
-      });
-    }
-    vm.addPosition = function(){
-      if(vm.candidate.positions.includes(vm.newPosition)){
-        console.log("Duplicate!");
-      }else{
-        vm.candidate.positions.push(vm.newPosition);
-        vm.newPosition = "";
-        vm.update();
-      }
-    }
-    vm.removePosition = function($index){
-      vm.candidate.positions.splice($index, 1);
-      vm.update();
-    }
-    vm.endorse = function(){
-      Candidate.endorse(vm.candidate, function(response){
-        vm.candidate.endorsedBy = response.endorsedBy;
-      });
-    }
   }
+
 })();

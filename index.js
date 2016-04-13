@@ -1,79 +1,30 @@
 var express = require("express");
 var parser  = require("body-parser");
-var hbs     = require("express-handlebars");
-var session = require("express-session");
-var request = require("request");
-var qstring = require("qs");
 var mongoose= require("./db/connection");
-var twitter = require("./lib/twitter_auth");
 
 var app     = express();
 
-var Candidate = mongoose.model("Candidate");
-
-if(process.env.NODE_ENV !== "production"){
-  var env   = require("./env");
-  process.env.session_secret = env.session_secret;
-  process.env.t_callback_url = env.t_callback_url;
-  process.env.t_consumer_key = env.t_consumer_key;
-  process.env.t_consumer_secret = env.t_consumer_secret;
-}
-
-app.use(session({
-  secret: process.env.session_secret,
-  resave: false,
-  saveUninitialized: false,
-  store: new (require("connect-mongo")(session))({
-    mongooseConnection: mongoose.connection
-  })
-}));
 
 app.set("port", process.env.PORT || 3001);
-app.set("view engine", "hbs");
-app.engine(".hbs", hbs({
-  extname:        ".hbs",
-  partialsDir:    "views/",
-  layoutsDir:     "views/",
-  defaultLayout:  "layout-main"
-}));
-app.use("/assets", express.static("public"));
-app.use("/bower", express.static("bower_components"));
+var Candidate = mongoose.model("Candidate");
+
+app.use("/public", express.static("public"));
 app.use(parser.json({extended: true}));
-app.use(function(req, res, next){
-  res.locals.isProduction = (process.env.NODE_ENV == "production");
-  twitter.checkIfSignedIn(req, res, function(){
-    next();
-  });
-});
-
-app.get("/login/twitter", function(req, res){
-  twitter.getSigninURL(req, res, function(url){
-    res.redirect(url);
-  });
-});
-
-app.get("/login/twitter/callback", function(req, res){
-  twitter.whenSignedIn(req, res, function(){
-    res.redirect("/");
-  });
-});
-
-app.get("/logout", function(req, res){
-  req.session.destroy();
-  res.redirect("/");
-});
 
 app.get("/api/candidates", function(req, res){
-  Candidate.find({}).lean().exec().then(function(candidates){
-    candidates.forEach(function(candidate){
-      candidate.isCurrentUser = (candidate._id == req.session.candidate_id);
-    });
+  Candidate.find({}).then(function(candidates){
     res.json(candidates);
   });
 });
 
 app.get("/api/candidates/:name", function(req, res){
   Candidate.findOne({name: req.params.name}).then(function(candidate){
+    res.json(candidate);
+  });
+});
+
+app.post("/api/candidates", function(req, res){
+  Candidate.create(req.body.candidate).then(function(candidate){
     res.json(candidate);
   });
 });
@@ -90,22 +41,10 @@ app.put("/api/candidates/:name", function(req, res){
   });
 });
 
-app.post("/api/candidates/:name/endorse", function(req, res){
-  var user_id = req.session.candidate_id;
-  Candidate.findOne({name: req.params.name}).then(function(candidate){
-    var index = candidate.endorsedBy.indexOf(user_id);
-    if(index < 0) candidate.endorsedBy.push(user_id);
-    else candidate.endorsedBy.splice(index, 1);
-    candidate.save().then(function(candidate){
-      res.json(candidate);
-    });
-  });
-});
-
 app.get("/*", function(req, res){
-  res.render("candidates");
+  res.sendFile(__dirname + "/views/main.html");
 });
 
-app.listen(app.get("port"), function(){
-  console.log("It's aliiive!");
+app.listen(app.get("port"), function() {
+console.log("N");
 });
