@@ -44,9 +44,9 @@ app.use(function(req, res, next){
   });
 });
 
-app.get("/", function(req, res){
-  res.render("candidates");
-});
+// app.get("/", function(req, res){
+//   res.render("candidates");
+// }); ** this moved to bottom and changed a little 
 
 app.get("/login/twitter", function(req, res){
   twitter.getSigninURL(req, res, function(url){
@@ -118,6 +118,9 @@ app.put("/api/candidates/:name", function(req, res){
 //     });
 //   });
 // });
+app.get("/*", function(req, res){
+  res.render("candidates");
+});
 
 app.listen(app.get("port"), function(){
   console.log("It's aliiive!");
