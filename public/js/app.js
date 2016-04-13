@@ -25,6 +25,8 @@
   .controller("candShowCtrl", [
     "Candidate",
     "$stateParams",
+    "$state",
+    "$window",
     candShowCtrl
   ]);
 
@@ -53,12 +55,12 @@
 
   function Candidate($resource){
     var Candidate = $resource("/api/candidates/:name", {}, {
-      update: {method: "PUT"}
+      update: {method: "put"}
     });
     Candidate.all = Candidate.query();
     Candidate.find = function(property, value, callback){
-      Candidate.all.$promise.then(function(){
-        Candidate.all.forEach(function(candidate){
+      Candidate.all.$promise.then(function(candidates){
+        candidates.forEach(function(candidate){
           if(candidate[property] == value) callback(candidate);
         });
       });
@@ -71,14 +73,22 @@
     vm.candidates = Candidate.all;
   }
 
-  function candShowCtrl(Candidate, $stateParams){
+  function candShowCtrl(Candidate, $stateParams, $state, $window){
     var vm = this;
     Candidate.find("name", $stateParams.name, function(candidate){
       vm.candidate = candidate;
     })
     vm.update = function(){
-      Candidate.update({name: vm.candidate.name}, {candidate: vm.candidate}, function(){
-        console.log('candidate updated');
+      console.log(vm.candidate.name);
+      Candidate.update({name: $stateParams.name}, {candidate: vm.candidate}, function(){
+        console.log('updatesssss');
+        $state.go("show", {name: vm.candidate.name}, {reload: true})
+      })
+    }
+    vm.destroy = function(){
+      Candidate.delete({name: $stateParams.name}, {candidate: vm.candidate}, function(){
+        console.log('candidate deleted...');
+        $window.location.replace("/candidates");
       })
     }
   }
