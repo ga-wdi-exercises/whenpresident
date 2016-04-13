@@ -1,0 +1,5 @@
+<h3>{{indexVM.candidates.length}} Candidates</h3>
+
+<div data-ng-repeat="candidate in indexVM.candidates">
+  <a href="/candidates/{{candidate.name}}"><h4>{{candidate.name}} running in {{candidate.year}}</h4></a>
+</div>

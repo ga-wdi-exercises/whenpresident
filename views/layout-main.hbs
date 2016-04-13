@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html data-ng-app="candidates">
   <head>
     <title>When President</title>
     <link rel="stylesheet" href="/assets/css/styles.css" />
+    <!-- states where application's routes start from / what are they relative to – here, realtive to the root route -->
+    <base href="/" /></base>
   </head>
   <body>
     <h1><a href="/">When President...</a></h1>
@@ -16,5 +18,6 @@
       {{/if}}
     </nav>
     {{{body}}}
+    <!-- <main data-ui-view></main> -->
   </body>
 </html>

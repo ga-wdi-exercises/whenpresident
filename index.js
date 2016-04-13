@@ -1,13 +1,13 @@
-var express = require("express");
-var parser  = require("body-parser");
-var hbs     = require("express-handlebars");
-var session = require("express-session");
-var request = require("request");
-var qstring = require("qs");
-var mongoose= require("./db/connection");
-var twitter = require("./lib/twitter_auth");
+var express  = require("express");
+var parser   = require("body-parser");
+var hbs      = require("express-handlebars");
+var session  = require("express-session");
+var request  = require("request");
+var qstring  = require("qs");
+var mongoose = require("./db/connection");
+var twitter  = require("./lib/twitter_auth");
 
-var app     = express();
+var app      = express();
 
 var Candidate = mongoose.model("Candidate");
 
@@ -43,10 +43,10 @@ app.use(function(req, res, next){
     next();
   });
 });
-
-app.get("/", function(req, res){
-  res.render("candidates");
-});
+// angular route controlling
+// app.get("/", function(req, res){
+//   res.render("candidates");
+// });
 
 app.get("/login/twitter", function(req, res){
   twitter.getSigninURL(req, res, function(url){
@@ -60,32 +60,29 @@ app.get("/login/twitter/callback", function(req, res){
   });
 });
 
-app.get("/candidates", function(req, res){
+// api namespaces this, want to avoid collision with angular
+app.get("/api/candidates", function(req, res){
   Candidate.find({}).then(function(candidates){
-    res.render("candidates-index", {
-      candidates: candidates
-    });
+    res.json(candidates);
   });
 });
 
-app.get("/candidates/:name", function(req, res){
+app.get("/api/candidates/:name", function(req, res){
   Candidate.findOne({name: req.params.name}).then(function(candidate){
-    res.render("candidates-show", {
-      candidate: candidate,
-      isCurrentUser: (candidate._id == req.session.candidate_id)
-    });
+    candidate.isCurrentUser = (candidate.id == req.session.candidate_id);
+    res.json(candidate);
   });
 });
 
-app.post("/candidates/:name/delete", function(req, res){
+app.delete("/api/candidates/:name/delete", function(req, res){
   Candidate.findOneAndRemove({name: req.params.name}).then(function(){
-    res.redirect("/candidates")
+    res.json({success: true});
   });
 });
 
-app.post("/candidates/:name", function(req, res){
+app.put("/api/candidates/:name", function(req, res){
   Candidate.findOneAndUpdate({name: req.params.name}, req.body.candidate, {new: true}).then(function(candidate){
-    res.redirect("/candidates/" + candidate.name);
+    res.json(candidate);
   });
 });
 
@@ -105,6 +102,10 @@ app.post("/candidates/:name/positions/:index", function(req, res){
       res.redirect("/candidates/" + candidate.name);
     });
   });
+});
+
+app.get("/*", function(req, res){
+  res.render("candidates");
 });
 
 app.listen(app.get("port"), function(){
