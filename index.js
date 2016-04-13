@@ -52,6 +52,12 @@ app.post("/candidates/:name", function(req, res) {
   });
 });
 
+app.post("/candidates/:name/delete", function(req, res) {
+  Candidate.findOneAndRemove({name: req.params.name}).then(function() {
+    res.redirect("/candidates");
+  });
+});
+
 app.listen(app.get("port"), function(){
   console.log("It's aliiive!");
 });

@@ -12,3 +12,8 @@
   <input type="number" name="candidate[year]" placeholder="Year" />
   <button type="Submit">Edit</button>
 </form>
+
+<h3>Delete:</h3>
+<form action="/candidates/{{candidate.name}}/delete" method="post" name="{{candidate.name}}">
+  <button type="Submit">Delete</button>
+</form>
