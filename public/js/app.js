@@ -3,9 +3,9 @@
 (function(){
   
   angular
-    .module("candidates", [
+    .module("when-president", [
       "ui.router",
-      "ngResource"
+      "candidates"
     ])
     .config([
       "$stateProvider",
