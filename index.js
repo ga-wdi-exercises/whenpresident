@@ -97,6 +97,12 @@ app.post("/candidates/:name/positions", function(req, res){
   });
 });
 
+app.delete("/candidates/:name", function(req, res){
+  Candidate.findOneAndRemove({name: req.params.name}), then(function(){
+    res.redirect("/candidates/");
+  });
+})
+
 app.post("/candidates/:name/positions/:index", function(req, res){
   Candidate.findOne({name: req.params.name}).then(function(candidate){
     candidate.positions.splice(req.params.index, 1);

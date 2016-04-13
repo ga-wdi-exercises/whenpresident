@@ -79,6 +79,11 @@
         console.log("Done updating!");
       });
     }
+    vm.delete = function(){
+      Candidate.delete({name: vm.candidate.name}, function(){
+        console.log("Deleted!");
+      })
+    }
   }
 
 })();
