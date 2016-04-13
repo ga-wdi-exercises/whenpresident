@@ -67,4 +67,16 @@
     var vm = this;
     vm.candidates = Candidate.all;
   }
+
+  function candShowCtrl(Candidate, $stateParams){
+    var vm=this;
+    Candidate.find("name", $stateParams.name, function(candidate){
+      vm.candidate = candidate;
+    });
+    vm.update = function(){
+      Candidate.update({name: vm.candidate.name}, {candidate: vm.candidate}, function(){
+        console.log("Done!");
+      });
+    }
+  }
 })();

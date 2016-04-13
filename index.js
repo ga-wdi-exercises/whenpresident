@@ -81,7 +81,7 @@ app.get("/api/candidates", function(req, res){
 
 app.get("/api/candidates/:name", function(req, res){
   Candidate.findOne({name: req.params.name}).then(function(candidate){
-    candidate.isCurrentUser = (candidate._id == req.session.candidate_id);
+    // candidate.isCurrentUser = (candidate._id == req.session.candidate_id);
     res.json(candidate);
     // res.render("candidates-show", {
     //   candidate: candidate,
