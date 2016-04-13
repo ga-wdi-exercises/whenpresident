@@ -6,7 +6,7 @@ var ctrl      = require("./candidates-controller");
 var app       = express();
 
 var candidatesPath = "/candidates";
-var candidateCtrl  = ctrl.CandidateCtrl(Candidate);
+var candidateCtrl  = ctrl.CandidateCtrl(Candidate, candidatesPath);
 
 // Fallback to port 3001 if environment not set
 app.set("port", process.env.PORT || 3001);

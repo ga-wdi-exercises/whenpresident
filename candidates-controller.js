@@ -1,4 +1,4 @@
-function CandidateCtrl(Candidate) {
+function CandidateCtrl(Candidate, path) {
   return {
     index: function(req, res) {
       // Find and render all
@@ -11,7 +11,7 @@ function CandidateCtrl(Candidate) {
     create: function(req, res) {
       // Add new and return to index
       Candidate.create(req.body.candidate).then(function() {
-        res.redirect("/candidates");
+        res.redirect(path);
       });
     },
     show: function(req, res) {
@@ -33,7 +33,7 @@ function CandidateCtrl(Candidate) {
       Candidate.findOneAndRemove({
         name: req.params.name}
       ).then(function() {
-        res.redirect("/candidates");
+        res.redirect(path);
       });
     },
     edit: function(req, res) {
@@ -41,7 +41,7 @@ function CandidateCtrl(Candidate) {
       var name = req.params.name;
       Candidate.findOneAndUpdate({name: name}, req.body.candidate, {new: true})
       .then(function(candidate) {
-        res.redirect("/candidates/" + candidate.name);
+        res.redirect(path + "/" + candidate.name);
       });
     }
   };
