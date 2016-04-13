@@ -62,9 +62,7 @@ app.get("/login/twitter/callback", function(req, res){
 
 app.get("/api/candidates", function(req, res){
   Candidate.find({}).then(function(candidates){
-    res.render("candidates-index", {
-      candidates: candidates
-    });
+    res.json(candidates);
   });
 });
 
