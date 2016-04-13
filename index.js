@@ -28,6 +28,8 @@ app.use(session({
   })
 }));
 
+app.use(parser.json({extended: true}));
+
 app.set("port", process.env.PORT || 3001);
 app.set("view engine", "hbs");
 app.engine(".hbs", hbs({
@@ -57,6 +59,11 @@ app.get("/login/twitter/callback", function(req, res){
   });
 });
 
+app.get("/logout", function(req, res) {
+  req.session.destroy();
+  res.redirect("/");
+});
+
 app.get("/api/candidates", function(req, res){
   Candidate.find({}).lean().exec().then(function(candidates){
     candidates.forEach(function(candidate) {
@@ -78,7 +85,7 @@ app.delete("/api/candidates/:name", function(req, res){
   });
 });
 
-app.put("/candidates/:name", function(req, res){
+app.put("/api/candidates/:name", function(req, res){
   Candidate.findOneAndUpdate({name: req.params.name}, req.body.candidate, {new: true}).then(function(candidate){
     res.json(candidate);
   });

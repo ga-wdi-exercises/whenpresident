@@ -24,6 +24,7 @@
     .controller("candidatesShowController", [
       "CandidateFactory",
       "$stateParams",
+      "$window",
       candidatesShowControllerFunction
     ]);
 
@@ -54,15 +55,6 @@
         update: {method: "PUT"}
       });
       Candidate.all = Candidate.query();
-      // Candidate.find = function(property, paramsValue, callback) {
-      //   Candidate.all.$promise.then(function() {
-      //     Candidate.all.forEach(function(candidate) {
-      //       if (candidate[property] === paramsValue) {
-      //         callback(candidate);
-      //       }
-      //     });
-      //   });
-      // }
       return Candidate;
     }
 
@@ -70,12 +62,18 @@
       this.candidates = CandidateFactory.all;
     }
 
-    function candidatesShowControllerFunction(CandidateFactory, $stateParams) {
-      // var vm = this;
-      // CandidateFactory.find("name", $stateParams.name, function(candidate) {
-      //   vm.candidate = candidate;
-      // });
-      this.candidate = CandidateFactory.get({name: $stateParams.name});
-      console.log(this.candidate);
+    function candidatesShowControllerFunction(CandidateFactory, $stateParams, $window) {
+      var vm = this;
+      vm.candidate = CandidateFactory.get({name: $stateParams.name});
+      vm.update = function() {
+        CandidateFactory.update({name: vm.candidate.name}, {candidate: vm.candidate}, function() {
+          console.log("Success");
+        });
+      }
+      vm.delete = function() {
+        CandidateFactory.delete({name: vm.candidate.name}, function() {
+          $window.location.replace("/");
+        });
+      }
     }
 })();
