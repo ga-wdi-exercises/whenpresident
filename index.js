@@ -60,20 +60,17 @@ app.get("/login/twitter/callback", function(req, res){
   });
 });
 
-app.get("/candidates", function(req, res){
+app.get("/api/candidates", function(req, res){
   Candidate.find({}).then(function(candidates){
-    res.render("candidates-index", {
-      candidates: candidates
+    res.json(candidates);
     });
   });
 });
 
-app.get("/candidates/:name", function(req, res){
+app.get("/api/candidates/:name", function(req, res){
   Candidate.findOne({name: req.params.name}).then(function(candidate){
-    res.render("candidates-show", {
-      candidate: candidate,
-      isCurrentUser: (candidate._id == req.session.candidate_id)
-    });
+  candidate.isCurrentUser = (candidate._id == req.session.candidate_id);
+  res.json(candidate);
   });
 });
 
