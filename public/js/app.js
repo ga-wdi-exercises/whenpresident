@@ -15,12 +15,14 @@
   function Router($stateProvider) {
     $stateProvider
       .state("welcome", {
-        url: "/",
+        url:         "/",
         templateUrl: "/assets/html/app-welcome.html"
       })
       .state("index", {
-        url:         "/candidates",
-        templateUrl: "/assets/html/candidates-index.html"
+        url:          "/candidates",
+        templateUrl:  "/assets/html/candidates-index.html",
+        controller:   "candIndexCtrl",
+        controllerAs: "indexVM"
       });
   }
 
