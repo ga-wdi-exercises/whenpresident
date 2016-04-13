@@ -9,6 +9,14 @@
   .config([
     "$stateProvider",
     Router
+  ])
+  .factory("Candidate", [
+    "$resource",
+    Candidate
+  ])
+  .controller("candIndexCtrl", [
+    "Candidate",
+    candIndexCtrl
   ]);
   function Router($stateProvider) {
     $stateProvider
@@ -18,7 +26,20 @@
     })
     .state("index", {
       url: "/candidates",
-      templateUrl: "/assets/html/candidates-index.html"
+      templateUrl: "/assets/html/candidates-index.html",
+      controller: "candIndexCtrl",
+      controllerAs: "indexVM"
     });
+  }
+  function Candidate($resource) {
+    var Candidate = $resource("/api/candidates/:name", {}, {
+      update: {method: "PUT"}
+    });
+    Candidate.all = Candidate.query();          //What exactly is going on here?//
+    return Candidate;
+  }
+  function candIndexCtrl(Candidate) {
+    var vm = this;
+    vm.candidates = Candidate.all;
   }
 })();
