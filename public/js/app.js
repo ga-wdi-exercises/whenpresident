@@ -13,6 +13,10 @@
   .factory("Candidate", [
     "$resource",
     CandidateFactory
+  ])
+  .controller("candIndexCtrl", [
+    "Candidate",
+    candIndexCtrl
   ]);
 
   function Router($stateProvider){
