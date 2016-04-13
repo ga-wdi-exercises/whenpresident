@@ -44,10 +44,6 @@ app.use(function(req, res, next){
   });
 });
 
-app.get("/", function(req, res){
-  res.render("candidates");
-});
-
 app.get("/login/twitter", function(req, res){
   twitter.getSigninURL(req, res, function(url){
     res.redirect(url);
@@ -90,6 +86,11 @@ app.put("/api/candidates/:name", function(req, res){
     res.json(candidate);
   });
 });
+
+app.get("/*", function(req, res){  //"*" represents a wildcard.  This allows all combinations of routes to trigger angularJS's html5 mode.//
+  res.render("candidates");
+});
+
 
 app.listen(app.get("port"), function(){
   console.log("It's aliiive!");
