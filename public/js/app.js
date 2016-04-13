@@ -42,12 +42,12 @@
       controllerAs: "indexVM"
     })
     .state("show", {
-      url: "/candidate/:name",
+      url: "/candidates/:name",
       templateUrl: "/assets/html/candidates-show.html",
       controller: "candShowCtrl",
       controllerAs: "showVM"
     });
-    $urlRouterProvider.otheriwse("/");
+    $urlRouterProvider.otherwise("/");
   }
 
   function Candidate($resource){
@@ -75,6 +75,11 @@
     Candidate.find("name", $stateParams.name, function (candidate){
       vm.candidate = candidate;
     });
+    vm.update = function(){
+      Candidate.update({name: vm.candidate.name}, {candidate: vm.candidate.candidate}, function(){
+        console.log("Done!");
+      });
+    }
   }
 
 })();
