@@ -4,6 +4,22 @@
 
 <div data-ng-if="showVM.candidate">
   <h2>{{showVM.candidate.name}} for President in {{showVM.candidate.year}}!</h2>
+  <form>
+    <input type="text" placeholder="name" value={{showVM.candidate.name}} />
+    <input type="number" placeholder="year" value={{showVM.candidate.year}} />
+    <button data-ng-click="showVM.update()">Edit Candidate's Platform</button>
+    <button data-ng-click="showVM.destroy()">Drop Out of the Race</button>
+  </form>
+</div>
+
+<div data-ng-if="showVM.candidate.isCurrentUser">
+  <textarea></textarea>
+  <button type="submit">Add a position</button>
+</div>
+
+</div>
+<!-- <div data-ng-if="showVM.candidate">
+  <h2>{{showVM.candidate.name}} for President in {{showVM.candidate.year}}!</h2>
   <div data-ng-if="showVM.candidate.isCurrentUser">
     <form method="post" action="/candidates/{{candidate.name}}/delete">
       <button type="submit">Concede</button>
@@ -20,11 +36,4 @@
     <form action="/candidates/{{../showVM.candidate.name}}/positions/{{index}}" method="post">
       <button data-ng-if="showVM.candidate.isCurrentUser" data-ng-click="showVM.delete()">Change your mind</button>
     </form>
-  </div>
-
-  <div data-ng-if="showVM.candidate.isCurrentUser">
-    <textarea></textarea>
-    <button type="submit">Add a position</button>
-  </div>
-
-</div>
+  </div> -->
