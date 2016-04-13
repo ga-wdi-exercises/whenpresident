@@ -37,7 +37,7 @@ app.engine(".hbs", hbs({
   defaultLayout:  "layout-main"
 }));
 app.use("/assets", express.static("public"));
-app.use("/bower".express.static("bower_components"));
+app.use("/bower", express.static("bower_components"));
 app.use(parser.urlencoded({extended: true}));
 app.use(function(req, res, next){
   res.locals.isProduction = (process.env.NODE_ENV == "production");
@@ -80,7 +80,7 @@ app.get("/api/candidates/:name", function(req, res){
 
 app.delete("/api/candidates/:name", function(req, res){
   Candidate.findOneAndRemove({name: req.params.name}).then(function(){
-    res.json{{success: true}};
+    res.json({success: true});
   });
 });
 
