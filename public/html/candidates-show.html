@@ -4,10 +4,10 @@
 
 <div data-ng-if="showVM.candidate">
 
-  <h2>{{ShowVM.candidate.name}} for President in {{ShowVM.candidate.year}}!</h2>
+  <h2>{{showVM.candidate.name}} for President in {{showVM.candidate.year}}!</h2>
   <div data-ng-if="showVM.candidate.isCurrentUser">
     <input type="number" placeholder="Year" data-ng-model="showVM.candidate.year"/>
-    <button>Edit Platform</button>
+    <button data-ng-click="showVM.update()">Edit Platform</button>
     <button>Button</button>
   </div>
 
@@ -16,7 +16,7 @@
     <button data-ng-if="showVM.candidate.isCurrentUser">Change your mind</button>
   </div>
 
-  <div data-ng-if="showVM.candidate.isCurrentUser">
+  <div data-ng-if="showVM.candidate.isCurrentUser">      <!--Something related to isCurrentUser is broken-->
     <textarea></textarea>
     <button>Add a position</button>
   </div>

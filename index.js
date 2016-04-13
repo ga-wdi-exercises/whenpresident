@@ -44,6 +44,8 @@ app.use(function(req, res, next){
   });
 });
 
+app.use(parser.json({extended: true}));
+
 app.get("/login/twitter", function(req, res){
   twitter.getSigninURL(req, res, function(url){
     res.redirect(url);
@@ -61,10 +63,13 @@ app.get("/logout", function(req, res){
   res.redirect("/");
 });
 
-app.get("/api/candidates", function(req, res) {                             //What is going on here???//
-  Candidate.find({}).lean().exec().then(function(candidates) {
-    candidates.forEach(function(candidate) {
-      candidate.isCurrentUser = (candidate._id == req.session.candidate_id);
+app.get("/api/candidates", function(req, res) {
+  Candidate.find({}).lean().exec().then(function(candidates) {    //Finding all cadidates saved in database ("Candidate" is a mongoose model) and converting to a json//
+    console.log(req.session.candidate_id); //Resulting JSON is passed into "candidates" in the then callback function.//
+    candidates.forEach(function(candidate) { //Iterates through json objects to find a specific candidate.//
+      console.log(candidate._id); //Test.//
+
+      candidate.isCurrentUser = (candidate._id == req.session.candidate_id); //A boolean comparing the signed in user to the candidate using ids.  If true (data-ng-if) then contents (the form and edit/concede buttons) will display on show view.//
     });
     res.json(candidates);
     });
@@ -73,6 +78,7 @@ app.get("/api/candidates", function(req, res) {                             //Wh
 
 app.get("/api/candidates/:name", function(req, res){
   Candidate.findOne({name: req.params.name}).then(function(candidate){
+    console.log("in api single candidate");
     res.json(candidate);
   });
 });
