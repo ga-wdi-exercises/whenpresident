@@ -37,7 +37,7 @@ app.engine(".hbs", hbs({
   defaultLayout:  "layout-main"
 }));
 app.use("/assets", express.static("public"));
-app.use(parser.urlencoded({extended: true}));
+app.use(parser.json({extended: true}));//TODO: What does this do?
 app.use(function(req, res, next){
   twitter.checkIfSignedIn(req, res, function(){
     next();
@@ -75,7 +75,7 @@ app.get("/api/candidates/:name", function(req, res){
   });
 });
 
-app.post("/api/candidates/:name/delete", function(req, res){
+app.delete("/api/candidates/:name", function(req, res){
   Candidate.findOneAndRemove({name: req.params.name}).then(function(){
     res.json({success: true});
   });

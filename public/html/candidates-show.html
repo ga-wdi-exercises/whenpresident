@@ -3,11 +3,11 @@
 </div>
 <div data-ng-if="vm.candidate">
   <h2>{{vm.candidate.name}} for President in {{vm.candidate.year}}!</h2>
-  <div data-ng-if="vm.candidate.isCurrentUser">
+  <!-- <div data-ng-if="vm.candidate.isCurrentUser"> -->
     <input type="number" placholder="Year" data-ng-model="vm.candidate.year"/>
-    <button>Edit Platform</button>
-    <button>Concede</button>
-  </div>
+    <button data-ng-click="vm.update()">Edit Platform</button>
+    <button data-ng-click="vm.delete()">Concede</button>
+  <!-- </div> -->
 
   <div data-ng-repeat="position in vm.candidate.positions">
     <p>{{position}}</p>
