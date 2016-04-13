@@ -57,14 +57,15 @@ app.get("/login/twitter/callback", function(req, res){
 });
 
 app.get("/api/candidates", function(req, res){
-  Candidate.find({}).then(function(candidates){
-    res.json(candidates);
+  Candidate.find({}).lean().exec().then(function(candidates){
+    candidates.forEach(function(candidate){
+      candidate.isCurrentUser = (candidate._id == req.session.candidate_id);
+    });
   });
 });
 
 app.get("/api/candidates/:name", function(req, res){
   Candidate.findOne({name: req.params.name}).then(function(candidate){
-    candidate.isCurrentUser = (candidate._id == req.session.candidate_id);
     res.json(candidate);
   });
 });
