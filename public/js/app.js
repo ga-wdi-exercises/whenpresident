@@ -20,7 +20,7 @@
       })
       .state("index", {
         url:         "/candidates",
-        templateUrl: "/assets/html/candidates.html"
+        templateUrl: "/assets/html/candidates-index.html"
       });
   }
 
