@@ -1,0 +1,12 @@
+<div data-ng-if="!showVM.candidate">
+  <h2>no such candidate. try again...</h2>
+</div>
+<div data-ng-if="showVM.candidate">
+  <h2>{{showVM.candidate.name}} for President in {{showVM.candidate.year}}!</h2>
+  <form>
+    <input type="text" placeholder="name" data-ng-model="showVM.candidate.name" />
+    <input type="number" placeholder="year" data-ng-model="showVM.candidate.year" />
+    <button data-ng-click="showVM.update()">Edit Candidate's Platform</button>
+    <button data-ng-click="showVM.destroy()">Delete Candidacy</button>
+  </form>
+</div>
