@@ -15,11 +15,11 @@
     $stateProvider
     .state("welcome", {
       url: "/",
-      templateUrl: "/assets/html/app-welcome.html" //why is this .html instead of .hbs?
+      templateUrl: "/assets/html/candidates-welcome.html" //why is this .html instead of .hbs?
     })
     .state("index", {
       url: "/candidates",
-      templateUrl: "/assets/html/candidates-index.html"
+      template: "<h2>These are all the candidates.</h2>"
     });
   }
 
