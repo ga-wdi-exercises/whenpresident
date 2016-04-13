@@ -1,0 +1,4 @@
+<h2>{{indexVM.candidates.length}} candidates</h2>
+<h3 data-ng-repeat="candidate in indexVM.candidates">
+  <a data-ui-sref="show({name: candidate.name})">{{candidate.name}} for President in {{candidate.year}}</a>
+</h3>
