@@ -12,7 +12,7 @@ var app     = express();
 var Candidate = mongoose.model("Candidate");
 
 if(process.env.NODE_ENV !== "production"){
-  var env   = require("./env");
+  var env   = require("./env")
   process.env.session_secret = env.session_secret;
   process.env.t_callback_url = env.t_callback_url;
   process.env.t_consumer_key = env.t_consumer_key;
@@ -50,8 +50,8 @@ app.get("/", function(req, res){
 
 app.get("/login/twitter", function(req, res){
   twitter.getSigninURL(req, res, function(url){
-    res.redirect(url);
-  });
+    res.redirect(url)
+  })
 });
 
 app.get("/login/twitter/callback", function(req, res){
@@ -65,7 +65,6 @@ app.get("/api/candidates", function(req, res){
     res.json(candidates);
     });
   });
-});
 
 app.get("/api/candidates/:name", function(req, res){
   Candidate.findOne({name: req.params.name}).then(function(candidate){
