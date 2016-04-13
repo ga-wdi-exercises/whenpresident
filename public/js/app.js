@@ -11,6 +11,7 @@
   .config([
     "$stateProvider",
     "$locationProvider",
+    "$urlRouterProvider",
     Router
   ])
   .factory("Candidatefactory", [
@@ -22,7 +23,7 @@
     candIndexCtrl
   ]);
 
-  function Router ($stateProvider, $locationProvider){
+  function Router ($stateProvider, $locationProvider, $urlRouterProvider){
     $locationProvider.html5Mode(true);
     $stateProvider
       .state("welcome", {
@@ -35,6 +36,7 @@
         controller: "candIndexCtrl",
         controllerAs: "indexVM"
       });
+      $urlRouterProvider.otherwise("/");
   }
 
   function Candidatefactory($resource){
