@@ -10,7 +10,25 @@
   .config([
     "$stateProvider",
     Router
+  ])
+  .factory("Candidate", [
+    "$resource",
+    CandidateFactory
+  ])
+  .controller("CandidateIndexCtrl", [
+    "CandidateFactory",
+    CandidateIndexCtrlFunction
   ]);
+
+  function CandidateFactory( $resource ){
+    return $resource( "http://localhost:3001/api/candidates/:name", {}, {
+        update: { method: "PUT" }
+    });
+  }
+
+  function CandidateIndexCtrlFunction (CandidateFactory){
+    this.candidates = CandidateFactory.query();
+  }
 
   function Router($stateProvider){
     $stateProvider
