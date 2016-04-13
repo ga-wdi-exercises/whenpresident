@@ -2,7 +2,7 @@ var express   = require("express");
 var parser    = require("body-parser");
 var hbs       = require("express-handlebars");
 var Candidate = require("./db/connection").CandidateModel;
-var ctrl      = require("./route-controllers");
+var ctrl      = require("./candidates-controller");
 var app       = express();
 
 var candidatesPath = "/candidates";
