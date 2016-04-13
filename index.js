@@ -60,7 +60,7 @@ app.get("/login/twitter/callback", function(req, res){
   });
 });
 
-app.get("/candidates", function(req, res){
+app.get("/api/candidates", function(req, res){
   Candidate.find({}).then(function(candidates){
     res.render("candidates-index", {
       candidates: candidates
@@ -68,24 +68,21 @@ app.get("/candidates", function(req, res){
   });
 });
 
-app.get("/candidates/:name", function(req, res){
+app.get("/api/candidates/:name", function(req, res){
   Candidate.findOne({name: req.params.name}).then(function(candidate){
-    res.render("candidates-show", {
-      candidate: candidate,
-      isCurrentUser: (candidate._id == req.session.candidate_id)
-    });
+    res.json(candidate);
   });
 });
 
-app.post("/candidates/:name/delete", function(req, res){
+app.post("/api/candidates/:name/delete", function(req, res){
   Candidate.findOneAndRemove({name: req.params.name}).then(function(){
-    res.redirect("/candidates")
+    res.json({sucess: true});
   });
 });
 
-app.post("/candidates/:name", function(req, res){
+app.post("/api/candidates/:name", function(req, res){
   Candidate.findOneAndUpdate({name: req.params.name}, req.body.candidate, {new: true}).then(function(candidate){
-    res.redirect("/candidates/" + candidate.name);
+    res.json(candidate);
   });
 });
 
