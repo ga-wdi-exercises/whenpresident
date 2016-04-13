@@ -9,6 +9,7 @@
   .config([
     "$stateProvider",
     "$locationProvider",
+    "$urlRouterProvider",
     Router
   ])
   .factory("Candidate", [
@@ -19,7 +20,7 @@
     "Candidate",
     candIndexCtrl
   ]);
-  function Router($stateProvider, $locationProvider) {
+  function Router($stateProvider, $locationProvider, $urlRouterProvider) {
     $locationProvider.html5Mode(true);
     $stateProvider
     .state("welcome", {
@@ -32,6 +33,7 @@
       controller: "candIndexCtrl",
       controllerAs: "indexVM"
     });
+    $urlRouterProvider.otherwise("/");  //Redirects any route not defined by a state to the index state.//
   }
   function Candidate($resource) {
     var Candidate = $resource("/api/candidates/:name", {}, {
