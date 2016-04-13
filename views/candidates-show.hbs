@@ -3,3 +3,12 @@
 {{else}}
 <h2>That candidate couldn't be found!</h2>
 {{/if}}
+
+<form action="/candidates/{{candidate.name}}/delete" method="post">
+  <button type="submit">Concede</button>
+</form>
+
+<form action="/candidates/{{candidate.name}}" method="post">
+  {{> candidate-form}}
+  <button type="Submit">Edit Candidate</button>
+</form>

@@ -1,4 +1,14 @@
-var seedData = require("./seeds.json");
+var mongoose = require("mongoose");
+
+var CandidateSchema = new mongoose.Schema({
+    name: String,
+    year: Number
+});
+
+var CandidateModel = mongoose.model("Candidate", CandidateSchema);
+
+mongoose.connect("mongodb://localhost/whenpresident");
+
 module.exports = {
-  candidates: seedData
+    CandidateModel: CandidateModel
 };
