@@ -15,7 +15,7 @@
     "$resource",
     Candidate
   ])
-  .controller("canIndexCtrl", [
+  .controller("candIndexCtrl", [
     "Candidate",
     candIndexCtrl
   ]);
@@ -33,6 +33,18 @@
       controller: "candIndexCtrl",
       controllerAs: "indexVM"
     });
+  }
+  function Candidate($resource){
+    var Candidate = $resource("/api/candidates/:name", {}, {
+      update: {method: "PUT"}
+    });
+    Candidate.all = Candidate.query();
+    return Candidate;
+  }
+
+  function candIndexCtrl(Candidate){
+    var vm = this;
+    vm.candidates = Candidate.all;
   }
 
 })();
