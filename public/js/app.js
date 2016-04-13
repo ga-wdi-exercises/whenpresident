@@ -19,6 +19,11 @@
   .controller("candIndexCtrl", [
     "Candidate",
     candIndexCtrl
+  ])
+  .controller("candShowCtrl", [
+    "Candidate",
+    "$stateParams",
+    candShowCtrl
   ]);
 
   function Router($stateProvider, $locationProvider, $urlRouterProvider ){
@@ -34,6 +39,12 @@
       controller: "candIndexCtrl",
       controllerAs: "indexVM"
       // template: "<h2>This is the candidates index page.</h2>"
+    })
+    .state("show", {
+      url: "/candidates/:name",
+      templateUrl: "/assets/html/candidates-show.html",
+      controller: "candShowCtrl",
+      controllerAs: "showVM"
     });
     $urlRouterProvider.otherwise("/");
   }
@@ -42,6 +53,13 @@
       update: {method: "PUT"}
     });
     Candidate.all = Candidate.query();
+    Candidate.find = function(property, value, callback){
+      Candidate.all.$promise.then(function(){
+        Candidate.all.forEach(function(candidate){
+          if(candidate[property] == value) callback(candidate);
+        });
+      });
+    }
     return Candidate;
   }
 

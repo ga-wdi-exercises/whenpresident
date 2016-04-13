@@ -46,7 +46,7 @@ app.use(function(req, res, next){
 
 // app.get("/", function(req, res){
 //   res.render("candidates");
-// }); ** this moved to bottom and changed a little 
+// }); ** this moved to bottom and changed a little
 
 app.get("/login/twitter", function(req, res){
   twitter.getSigninURL(req, res, function(url){
@@ -66,7 +66,12 @@ app.get("/logout", function(req, res){
 });
 
 app.get("/api/candidates", function(req, res){
-  Candidate.find({}).then(function(candidates){
+  // Candidate.find({}).then(function(candidates){
+  Candidate.find({}).lean().exec().then(function(candidates){
+    candidates.forEach(function(candidate){
+      candidate.isCurrentUser = (candidate._id == req.session.candidate_id);
+    })
+
     res.json(candidates);
     // res.render("candidates-index", {
     //   candidates: candidates

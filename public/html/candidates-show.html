@@ -1,4 +1,40 @@
-{{#unless candidate}}
+<div data-ng-if="!showVM.candidate">
+  <h2>That candidate couldn't be found!</h2>
+</div>
+<div data-ng-if="showVM.candidate">
+<h2>{{showVM.candidate.name}} for President in {{showVM.candidate.year}}!</h2>
+<div data-ng-if="showVM.candidate.isCurrentUser">
+  <input type="number" placeholder="Year" data-ng-model="showVM.candidate.year" />
+  <button>Edit Platform</button>
+  <button>Concede</button>
+</div>
+
+<div data-ng-repeat="position in showVM.candidate.positions">
+  <p>{{position}}</p>
+  <button data-ng-if="showVM.candidate.isCurrentUser">Change Your Mind</button>
+</div>
+
+<div data-ng-if="showVM.candidate.isCurrentUser">
+  <textarea></textarea>
+  <button>Add a Position</button>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- {{#unless candidate}}
 <h2>That candidate couldn't be found!</h2>
 {{else}}
 <h2>{{candidate.name}} for President in {{candidate.year}}!</h2>
@@ -30,4 +66,4 @@
   </form>
   {{/if}}
 
-{{/unless}}
+{{/unless}} -->
