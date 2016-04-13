@@ -58,7 +58,10 @@ app.get("/login/twitter/callback", function(req, res){
 });
 
 app.get("/api/candidates", function(req, res){
-  Candidate.find({}).then(function(candidates){
+  Candidate.find({}).lean().exec().then (function(candidates){
+    candidates.forEach(function(candidate){
+      candidate.isCurrentUser = (candidate._id == req.session.candidate_id);
+    });
     res.json(candidates);
   });
 });
