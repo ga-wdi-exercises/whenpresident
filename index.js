@@ -74,36 +74,17 @@ app.get("/api/candidates/:name", function(req, res){
   });
 });
 
-app.post("/candidates/:name/delete", function(req, res){
+app.delete("/api/candidates/:name", function(req, res){
   Candidate.findOneAndRemove({name: req.params.name}).then(function(){
-    res.redirect("/candidates")
+    res.json({success:true});
   });
 });
 
-app.post("/candidates/:name", function(req, res){
+app.put("/api/candidates/:name", function(req, res){
   Candidate.findOneAndUpdate({name: req.params.name}, req.body.candidate, {new: true}).then(function(candidate){
-    res.redirect("/candidates/" + candidate.name);
+    res.json(candidate);
   });
 });
-
-app.post("/candidates/:name/positions", function(req, res){
-  Candidate.findOne({name: req.params.name}).then(function(candidate){
-    candidate.positions.push(req.body.position);
-    candidate.save().then(function(){
-      res.redirect("/candidates/" + candidate.name);
-    });
-  });
-});
-
-app.post("/candidates/:name/positions/:index", function(req, res){
-  Candidate.findOne({name: req.params.name}).then(function(candidate){
-    candidate.positions.splice(req.params.index, 1);
-    candidate.save().then(function(){
-      res.redirect("/candidates/" + candidate.name);
-    });
-  });
-});
-
 
 app.listen(app.get("port"), function(){
   console.log("It's aliiive!");
