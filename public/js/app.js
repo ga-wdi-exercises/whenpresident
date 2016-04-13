@@ -76,5 +76,6 @@
       //   vm.candidate = candidate;
       // });
       this.candidate = CandidateFactory.get({name: $stateParams.name});
+      console.log(this.candidate);
     }
 })();
