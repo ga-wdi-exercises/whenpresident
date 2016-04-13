@@ -1,0 +1,21 @@
+<div data-ng-if="!vm.candidate">
+  <h2>That candidate couldn't be found :-(</h2>
+</div>
+<div data-ng-if="vm.candidate">
+  <h2>{{vm.candidate.name}} for President in {{vm.candidate.year}}!</h2>
+  <div data-ng-if="vm.candidate.isCurrentUser">
+    <input type="number" placholder="Year" data-ng-model="vm.candidate.year"/>
+    <button>Edit Platform</button>
+    <button>Concede</button>
+  </div>
+
+  <div data-ng-repeat="position in vm.candidate.positions">
+    <p>{{position}}</p>
+    <button data-ng-if="vm.candidate.isCurrentUser">Change your mind</button>
+  </div>
+
+  <div data-ng-if="vm.candidate.isCurrentUser">
+    <textarea></textarea>
+    <button>Add a position</button>
+  </div>
+</div>

@@ -1,0 +1,6 @@
+<h2>{{vm.candidates.length}} candidates</h2>
+<h3 data-ng-repeat="candidate in vm.candidates">
+  <a href="candidates/{{candidate.name}}">
+    {{candidate.name}} for President in {{candidate.year}}
+  </a>
+</h3>

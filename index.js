@@ -44,9 +44,9 @@ app.use(function(req, res, next){
   });
 });
 
-app.get("/", function(req, res){
-  res.render("candidates");
-});
+// app.get("/", function(req, res){
+//   res.render("candidates");
+// });
 
 app.get("/login/twitter", function(req, res){
   twitter.getSigninURL(req, res, function(url){
@@ -59,36 +59,34 @@ app.get("/login/twitter/callback", function(req, res){
     res.redirect("/");
   });
 });
-
-app.get("/candidates", function(req, res){
-  Candidate.find({}).then(function(candidates){
-    res.render("candidates-index", {
-      candidates: candidates
-    });
+/////////////////////////////////BEGIN ANGULAR CLASS WORK///////////////////////
+app.get("/api/candidates", function(req, res){
+  Candidate.find({}).lean().exec().then(function(candidates){
+    // candidates.forEach(function(candidate){
+    //   candidate.isCurrentUser = (candidate._id==req.session.)
+    // })
+    res.json(candidates);
   });
 });
 
-app.get("/candidates/:name", function(req, res){
+app.get("/api/candidates/:name", function(req, res){
   Candidate.findOne({name: req.params.name}).then(function(candidate){
-    res.render("candidates-show", {
-      candidate: candidate,
-      isCurrentUser: (candidate._id == req.session.candidate_id)
-    });
+    res.json(candidate);
   });
 });
 
-app.post("/candidates/:name/delete", function(req, res){
+app.post("/api/candidates/:name/delete", function(req, res){
   Candidate.findOneAndRemove({name: req.params.name}).then(function(){
-    res.redirect("/candidates")
+    res.json({success: true});
   });
 });
 
-app.post("/candidates/:name", function(req, res){
+app.post("/api/candidates/:name", function(req, res){
   Candidate.findOneAndUpdate({name: req.params.name}, req.body.candidate, {new: true}).then(function(candidate){
-    res.redirect("/candidates/" + candidate.name);
+    res.json(candidate);
   });
 });
-
+///////////////////////////////////END ANGULAR CLASS WORK///////////////////////
 app.post("/candidates/:name/positions", function(req, res){
   Candidate.findOne({name: req.params.name}).then(function(candidate){
     candidate.positions.push(req.body.position);
@@ -106,7 +104,11 @@ app.post("/candidates/:name/positions/:index", function(req, res){
     });
   });
 });
-
+///////////////Angular class////////////////////
+app.get("/*", function(req, res){
+    res.render("candidates");
+});
+/////////////////////////////////////////////////
 app.listen(app.get("port"), function(){
   console.log("It's aliiive!");
 });
