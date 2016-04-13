@@ -2,7 +2,11 @@
 [
   {
     "name": "Steve",
-    "year": 2024
+    "year": 2024,
+    "positions": [
+      "Four legs good, two legs bad",
+      "Animal rights!"
+    ]
   },
   {
     "name": "Barry",
