@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>When President</title>
-    <link rel="stylesheet" href="/assets/css/styles.css" />
-  </head>
-  <body>
-    <h1><a href="/">When President...</a></h1>
-    <nav>
-      {{#if user}}
-      <img src="{{user.t_photo_url}}" alt="{{user.name}}" />
-      Welcome, {{user.name}}!
-      <a href="/logout">Sign out</a>
-      {{else}}
-      <a href="/login/twitter">Sign in</a>
-      {{/if}}
-    </nav>
-    {{{body}}}
-  </body>
+<head>
+  <title>When President</title>
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <base href="/"></base>
+</head>
+<body>
+  <h1><a href="/">When President...</a></h1>
+  <nav>
+    {{#if user}}
+    <img src="{{user.t_photo_url}}" alt="{{user.name}}" />
+    Welcome, {{user.name}}!
+    <a href="/logout">Sign out</a>
+    {{else}}
+    <a href="/login/twitter">Sign in</a>
+    {{/if}}
+  </nav>
+  {{{body}}}
+</body>
 </html>
