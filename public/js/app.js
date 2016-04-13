@@ -25,6 +25,7 @@
     "Candidate",
     "$stateParams",
     "$window",
+    "$state",
     CandidateShowCtrlFunction
   ]);
 
@@ -39,7 +40,9 @@
     })
     .state("index", {
       url: "/candidates",
-      templateUrl: "/assets/html/candidates-index.html"
+      templateUrl: "/assets/html/candidates-index.html",
+      controller: "CandidateIndexController",
+      controllerAs: "indexVM"
     })
     .state("show", {
       url: "/candidates/:name",
@@ -68,17 +71,16 @@
   function CandidateIndexCtrlFunction(Candidate){
     var vm = this;
     vm.candidates = Candidate.all;
-    // this.candidate = Candidate.query();
-    // this.newCandidate = new Candidate();
   }
 
-  function CandidateShowCtrlFunction(Candidate,$stateParams,$window){
+  function CandidateShowCtrlFunction(Candidate,$stateParams,$state,$window){
     var vm = this;
     Candidate.find("name", $stateParams.name, function(candidate){
       vm.candidate = candidate;
       vm.update = function(){
         Candidate.update({name: vm.candidate.name}, {candidate: vm.candidate}, function(){
           console.log("Doooone!");
+          $state.go("show", {name: vm.candidate.name}, {reload: true})
         });
       };
       vm.delete = function(){
