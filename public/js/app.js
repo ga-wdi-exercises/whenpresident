@@ -24,8 +24,9 @@
   .controller("CandidateShowController", [
     "Candidate",
     "$stateParams",
+    "$window",
     CandidateShowCtrlFunction
-  ])
+  ]);
 
   function RouterFunction($stateProvider, $locationProvider, $urlRouterProvider){
     $locationProvider.html5Mode(true);
@@ -71,19 +72,20 @@
     // this.newCandidate = new Candidate();
   }
 
-  function CandidateShowCtrlFunction(Candidate,$stateParams){
+  function CandidateShowCtrlFunction(Candidate,$stateParams,$window){
     var vm = this;
     Candidate.find("name", $stateParams.name, function(candidate){
       vm.candidate = candidate;
-    vm.update = function(){
-      Candidate.update({name: vm.candidate.name}, {candidate: vm.candidate}, function(){
-        console.log("Doooone!");
-      });
-    };
+      vm.update = function(){
+        Candidate.update({name: vm.candidate.name}, {candidate: vm.candidate}, function(){
+          console.log("Doooone!");
+        });
+      };
+      vm.delete = function(){
+        Candidate.remove({name: vm.candidate}, function(){
+          $window.location.replace("/");
+        });
+      };
     });
   }
-
-
-
-
 })();
