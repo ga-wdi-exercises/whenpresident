@@ -37,6 +37,7 @@ app.engine(".hbs", hbs({
   defaultLayout:  "layout-main"
 }));
 app.use("/assets", express.static("public"));
+app.use(parser.json({extended: true}));
 app.use(parser.urlencoded({extended: true}));
 app.use(function(req, res, next){
   twitter.checkIfSignedIn(req, res, function(){

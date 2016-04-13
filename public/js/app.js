@@ -69,7 +69,12 @@
     var vm = this;
     CandidateFactory.find("name", $stateParams.name, function(candidate){
       vm.candidate = candidate;
-    })
+    });
+    vm.update = function(){
+      Candidate.update({name: vm.candidate.name}, {candidate: vm.candidate}, function(){
+        console.log("Done");
+      });
+    }
   }
 
 })();
