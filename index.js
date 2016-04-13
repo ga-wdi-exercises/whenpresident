@@ -6,6 +6,7 @@ var ctrl      = require("./route-controllers");
 var app       = express();
 
 var candidatesPath = "/candidates";
+var candidateCtrl  = ctrl.CandidateCtrl(Candidate);
 
 app.set("port", process.env.PORT || 3001);
 app.set("view engine", "hbs");
@@ -18,27 +19,19 @@ app.engine(".hbs", hbs({
 app.use("/assets", express.static("public"));
 app.use(parser.urlencoded({extended: true}));
 
-app.get("/", ctrl.rootCtrl);
-
-app.get(candidatesPath, function(req, res) {
-  ctrl.candidateIndexCtrl(req, res, Candidate);
+app.get("/", function(req, res) {
+  res.render("app-welcome");
 });
 
-app.post(candidatesPath, function(req, res) {
-  ctrl.candidateNewCtrl(req, res, Candidate);
-});
+app.get(candidatesPath, candidateCtrl.index);
 
-app.get(candidatesPath + "/:name", function(req, res) {
-  ctrl.candidateShowCtrl(req, res, Candidate);
-});
+app.post(candidatesPath, candidateCtrl.create);
 
-app.post(candidatesPath + "/:name/delete", function(req, res) {
-  ctrl.candidateDeleteCtrl(req, res, Candidate);
-});
+app.get(candidatesPath + "/:name", candidateCtrl.show);
 
-app.post(candidatesPath + "/:name/", function(req, res) {
-  ctrl.candidateEditCtrl(req, res, Candidate);
-});
+app.post(candidatesPath + "/:name/delete", candidateCtrl.destroy);
+
+app.post(candidatesPath + "/:name/", candidateCtrl.edit);
 
 app.listen(app.get("port"), function(){
   console.log("It's aliiive!");
