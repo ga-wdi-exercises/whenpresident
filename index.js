@@ -36,7 +36,7 @@ app.engine(".hbs", hbs({
   layoutsDir:     "views/",
   defaultLayout:  "layout-main"
 }));
-app.use("/assets", express.static("public"));
+app.use("/assets", express.static("public"));  //Why do this instead of just using "/public"? This seems redundant.  I think it has to do with having multiple folders of assets.  Say you had a folder of images, you could do app.use("/assets", express.static("images")) and streamline everything through a single public folder.//
 app.use(parser.urlencoded({extended: true}));
 app.use(function(req, res, next){
   twitter.checkIfSignedIn(req, res, function(){
@@ -79,7 +79,7 @@ app.get("/candidates/:name", function(req, res){
 
 app.post("/candidates/:name/delete", function(req, res){
   Candidate.findOneAndRemove({name: req.params.name}).then(function(){
-    res.redirect("/candidates")
+    res.redirect("/candidates");
   });
 });
 
