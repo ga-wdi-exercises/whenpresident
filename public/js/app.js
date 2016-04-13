@@ -18,5 +18,9 @@
       url: "/",
       templateUrl: "/assets/html/candidates-welcome.html"
     });
+    .state("index", {
+      url: "/candidates",
+      template: "<h2>This is the candidates index page."</h2>
+    })
   }
 })();
