@@ -9,3 +9,7 @@
   <input type="number" name="candidate[year]" placeholder="Year" value="{{year}}" />
   <button type="submit">Edit Platform</button>
 </form>
+
+<form action="/candidates/{{candidate.name}}/delete" method="post">
+  <button type="submit">Concede</button>
+</form>
