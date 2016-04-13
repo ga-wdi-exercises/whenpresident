@@ -10,10 +10,11 @@
     .config([
       "$locationProvider",
       "$stateProvider",
+      "$urlRouterProvider",
       Router
     ]);
 
-  function Router($locationProvider, $stateProvider) {
+  function Router($locationProvider, $stateProvider, $urlRouterProvider) {
     // Acknowledge HTML5 specific base tag routing
     $locationProvider.html5Mode(true);
 
@@ -29,5 +30,7 @@
         controller:   "candIndexCtrl",
         controllerAs: "indexVM"
       });
+      // Default to root if path doesn't match
+      $urlRouterProvider.otherwise("/");
   }
 })();
