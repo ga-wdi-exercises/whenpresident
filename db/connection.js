@@ -1,7 +1,6 @@
 var mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/whenpresident");
 
-var CandidateSchema = new mongoose.Schema(
+var CandidateSchema= new mongoose.Schema(
   {
     name: String,
     year: Number
@@ -9,4 +8,8 @@ var CandidateSchema = new mongoose.Schema(
 );
 
 mongoose.model("Candidate", CandidateSchema);
-module.exports = mongoose
+
+mongoose.connect(process.env.MONGOLAB_URL || "mongodb://localhost/whenpresident");
+
+
+module.exports = mongoose;
