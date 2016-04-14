@@ -3,10 +3,19 @@
   <head>
     <title>When President</title>
     <link rel="stylesheet" href="/assets/css/styles.css" />
-    <script src="/assets/js/app.js"></script>
+    <base href="/"></base>
   </head>
   <body>
     <h1><a href="/">When President...</a></h1>
+    <nav>
+      {{#if user}}
+      <img src="{{user.t_photo_url}}" alt="{{user.name}}" />
+      Welcome, {{user.name}}!
+      <a href="/logout">Sign out</a>
+      {{else}}
+      <a href="/login/twitter">Sign in</a>
+      {{/if}}
+    </nav>
     {{{body}}}
   </body>
 </html>
