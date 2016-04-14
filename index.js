@@ -29,17 +29,13 @@ app.get("/candidates", function(req, res){
 });
 
 app.get("/candidates/:name", function(req, res){
-  var desiredName = req.params.name;
-  var candidateOutput;
-  db.candidates.forEach(function(candidate){
-    if(desiredName === candidate.name){
-      candidateOutput = candidate;
-    }
-  });
-  res.render("candidates-show", {
-    candidate: candidateOutput
+  Candidate.findOne({name: req.params.name}).then(function(candidate){
+    res.render("candidates-show", {
+      candidate: candidate
+    });
   });
 });
+
 
 app.listen(app.get("port"), function(){
   console.log("It's aliiive!");
