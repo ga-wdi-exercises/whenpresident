@@ -1,7 +1,7 @@
 var express = require("express");
-var parser = require("body-paser");
+var parser = require("body-parser");
 var hbs     = require("express-handlebars");
-var mongoose      = require("./db/connection");
+var mongoose      = require("./db/connection.js");
 
 var app     = express();
 
@@ -39,7 +39,23 @@ app.get("/candidates/:name", function(req, res){
   });
 });
 
+app.post("/candidates", function(req, res){
+  Candidate.create(req.body.candidate).then(function(candidate){
+    res.redirect("/candidates/" + candidate.name);
+  });
+});
 
+app.post("/candidates/:name/delete", function(req, res){
+  Candidate.findOneAndRemove({name: req.params.name}).then(function(){
+    res.redirect("/candidates")
+  });
+});
+
+app.post("/candidates/:name", function(req, res){
+  Candidate.findOneAndUpdate({name: req.params.name}, req.body.candidate, {new: true}).then(function(candidate){
+    res.redirect("/candidates/" + candidate.name);
+  });
+});
 
 app.listen(app.get("port"), function(){
   console.log("It's aliiive!");

@@ -1,11 +1,10 @@
-var mongoose = require("mongoose");
+var mongoose  = require("mongoose");
 
-var CandidatesSchema = new mongoose.Schema(
+var CandidateSchema = new mongoose.Schema(
   {
     name: String,
     year: Number
   }
-
 );
 
 mongoose.model("Candidate", CandidateSchema);
