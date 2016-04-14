@@ -28,6 +28,9 @@ app.use(session({
   })
 }));
 
+// We need body parsing for updates
+app.set(parser.json({extended: true}));
+
 app.set("port", process.env.PORT || 3001);
 app.set("view engine", "hbs");
 app.engine(".hbs", hbs({
