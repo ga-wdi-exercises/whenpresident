@@ -2,12 +2,14 @@ var express = require("express");
 var parser  = require("body-parser");
 var hbs     = require("express-handlebars");
 var session = require("express-session");
+var cmongo  = require("connect-mongo");
 var request = require("request");
 var qstring = require("qs");
 var mongoose= require("./db/connection");
 var twitter = require("./lib/twitter_auth");
 
 var app     = express();
+var SMongo  = cmongo(session);
 
 var Candidate = mongoose.model("Candidate");
 
@@ -23,7 +25,7 @@ app.use(session({
   secret: process.env.session_secret,
   resave: false,
   saveUninitialized: false,
-  store: new (require("connect-mongo")(session))({
+  store: new SMongo({
     mongooseConnection: mongoose.connection
   })
 }));
