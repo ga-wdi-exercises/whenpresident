@@ -8,7 +8,7 @@
   <div>
     <input type="number" placeholder="Year" data-ng-model="showVM.candidate.year"/>
     <button data-ng-click="showVM.update()">Edit Platform</button>
-    <button>Concede</button>
+    <button data-ng-click="showVM.delete()">Concede</button>
   </div>
 
   <div data-ng-repeat="position in showVM.candidate.positions">
