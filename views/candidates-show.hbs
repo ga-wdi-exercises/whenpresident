@@ -1,6 +1,11 @@
  {{#unless candidate}}
  {{else}}
  <h2>{{candidate.name}} for President in {{candidate.year}}!</h2>
+ 
+ <form class="form" action="/candidates/{{candidate.name}}/delete" method="post">
+<button type="submit">Throw in the Towel</button>
+ </form>
+
  <form action="/candidates/{{candidate.name}}" method="post">
    <input type="text" name="candidate[name]" placeholder="Name" value="{{candidate.name}}" />
    <input type="number" name="candidate[year]" placeholder="Year" value="{{candidate.year}}" />

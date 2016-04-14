@@ -29,6 +29,12 @@ app.get("/candidates", function(req, res){
   });
 });
 
+app.post("/candidates/:name/delete", function(req, res){
+  Candidate.findOneAndRemove({name: req.params.name}).then(funtion(){
+    res.redirect("/candidates")
+  });
+});
+
 app.get("/candidates/:name", function(req, res){
   Candidate.findOne({name: req.params.name}).then(function(candidate){
     res.render("candidates-show", {
