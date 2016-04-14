@@ -13,21 +13,24 @@
   ])
   .factory("Candidate", [
     "$resource",
-    CandidateFactory
+    Candidate
   ])
-  .controller("CandidateIndexCtrl", [
-    "CandidateFactory",
-    CandidateIndexCtrlFunction
+  .controller("candIndexCtrl", [
+    "Candidate",
+    candIndexCtrl
   ]);
 
-  function CandidateFactory( $resource ){
-    return $resource( "http://localhost:3001/api/candidates/:name", {}, {
-        update: { method: "PUT" }
+  function Candidate($resource){
+    var Candidate = $resource("/api/candidates/:name", {}, {
+      update: { method: "PUT" }
     });
+    Candidate.all = Candidate.query();
+    return Candidate;
   }
 
-  function CandidateIndexCtrlFunction (CandidateFactory){
-    this.candidates = CandidateFactory.query();
+  function candIndexCtrl (Candidate){
+    var vm = this;
+    vm.candidates = Candidate.all;
   }
 
   function Router($stateProvider){
@@ -38,7 +41,9 @@
     })
     .state("index", {
       url: "/candidates",
-      templateUrl: "/assets/html/candidates-index.html"
+      templateUrl: "/assets/html/candidates-index.html",
+      controller: "candIndexCtrl",
+      controllerAs: "indexVM"
     });
   }
 
