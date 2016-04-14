@@ -24,6 +24,7 @@
   .controller("candShowCtrl", [
     "Candidate",
     "$stateParams",
+    "$window",
     candShowCtrl
   ]);
 
@@ -46,7 +47,7 @@
     this.candidates = Candidate.all;
   }
 
-  function candShowCtrl(Candidate, $stateParams){
+  function candShowCtrl(Candidate, $stateParams, $window){
     var vm = this;
     Candidate.find("name", $stateParams.name, function(candidate){
       vm.candidate = candidate;
@@ -54,6 +55,11 @@
     vm.update = function(){
       Candidate.update({name: vm.candidate.name}, {candidate: vm.candidate}, function(){
         console.log("Candidate updated successfully");
+      });
+    };
+    vm.delete = function(){
+      Candidate.remove({name: vm.candidate.name}, function(){
+        $window.location.replace("/");
       });
     };
   }
