@@ -1,33 +1,12 @@
-{{#unless candidate}}
-<h2>That candidate couldn't be found!</h2>
-{{else}}
-<h2>{{candidate.name}} for President in {{candidate.year}}!</h2>
+<div data-ng-if="!candShowVM.candidate">
+  <h2>That candidate couldn't be found!</h2>
+</div>
+<div data-ng-if="candShowVM.candidate">
 
-  {{#if isCurrentUser}}
-  <form method="post" action="/candidates/{{candidate.name}}/delete">
-    <button type="submit">Concede</button>
-  </form>
-  <form action="/candidates/{{candidate.name}}" method="post">
-    <input type="text" name="candidate[name]" placeholder="Name" value="{{candidate.name}}" />
-    <input type="number" name="candidate[year]" placeholder="Year" value="{{candidate.year}}" />
-    <button type="submit">Edit Platform</button>
-  </form>
-  {{/if}}
-
-  {{#each candidate.positions as |position index|}}
-  <p>{{position}}</p>
-    {{#if isCurrentUser}}
-    <form action="/candidates/{{../candidate.name}}/positions/{{index}}" method="post">
-      <button type="submit">Change your mind</button>
-    </form>
-    {{/if}}
-  {{/each}}
-
-  {{#if isCurrentUser}}
-  <form action="/candidates/{{candidate.name}}/positions" method="post">
-    <textarea name="position"></textarea>
-    <button type="submit">Add a position</button>
-  </form>
-  {{/if}}
-
-{{/unless}}
+  <h2>{{candShowVM.candidate.name}} for President in {{candShowVM.candidate.year}}!</h2>
+  <div>
+    <input type="number" placeholder="Year" data-ng-model="candShowVM.candidate.year" />
+    <button data-ng-click="candShowVM.update()">Update</button>
+    <button data-ng-click="candShowVM.delete()">Delete</button>
+  </div>
+</div>

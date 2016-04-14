@@ -6,15 +6,24 @@
     "ui.router",
     "ngResource"
   ])
-  .factory("Candidate", [
+  .factory("CandidateF", [
     "$resource",
-    Candidate
+    CandidateFFunction
   ])
   .config([
     "$stateProvider",
     "$locationProvider",
     Router
-  ]);
+  ])
+  .controller("candIndexCtrl", [
+      "CandidateF",
+      candIndexControllerFunction
+    ])
+    .controller("candShowController", [
+      "CandidateFactory",
+      "$stateParams",
+      candShowControllerFunction
+    ]);
 
   function Router ($stateProvider, $locationProvider){
     $locationProvider.html5Mode(true)
@@ -31,11 +40,13 @@
     })
     .state("show", {
       url: "/candidate/:id",
-      templateUrl: "/assets/html/candiates-show.html"
+      templateUrl: "/assets/html/candiates-show.html",
+      controller: "candShowCtrl",
+      controllerAs: "candShowVM"
     });
   }
 
-  function Candidate($resource){
+  function CandidateFFunction($resource){
     var Candidate = $resource("/api/candidates/:name", {}, {
       update: {method: "PUT"}
     });
@@ -44,9 +55,18 @@
     return Candidate;
 
   }
-  function candIndexCtrl(Candidate){
+  function candIndexCtrl(CandidateF){
     var vm = this;
-    vm.candidates = Candidate.all;
+    vm.candidates = CandidateF.all;
   }
+  function candShowControllerFunction(CandidateF, $stateParams) {
+     var vm = this;
+   vm.candidate = CandidateF.get({name: $stateParams.name});
+    vm.update = function() {
+      CandidateF.update({name: vm.candidate.name}, {candidate: vm.candidate}, function() {
+       console.log("Success");
+       });
+       }
+ }
 
 })();
