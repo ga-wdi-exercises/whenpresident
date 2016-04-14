@@ -1,6 +1,7 @@
 var express = require("express");
 var hbs = require("express-handlebars");
-var db = require("./db/connection");
+var mongoose = require("./db/connection");
+
 
 var app = express();
 
@@ -20,24 +21,36 @@ app.get("/", function(req, res){
   res.render("app-welcome");
 });
 
-app.get("/candidates", function(req, res){
-  Candidate.find({}).then(function(candidates){
-    res.render("candidates-index",{
-      candidates: candidates
+app.get("/candidates/:name", function(req, res){
+
+  Candidate.findOne({name: req.params.name}).then(function(){
+    res.render("candidates-show", {
+      candidate: candidate
     });
   });
 });
 
-app.get("/candidates/:name", function(req, res){
-  var desiredName = req.params.name;
-  var candidateOutput;
-  db.candidates.forEach(function(candidate){
-    if(desiredName === candidate.name){
-      candidateOutput = candidate;
-    }
+app.post("/candidates", function(req, res){
+
+  var candidateData = req.body.candidate;
+  Candidate.create(candidateData).then(function(newCandidate){
+    res.redirect("/candidates/" + candidate.name);
   });
-  res.render("candidates-show", {
-    candidate: candidateOutput
+});
+
+app.post("/candidates/:name", function(req, res){
+  var desiredName = req.params.name
+  var candidateData = req.body.candidate;
+  Candidate.findOneAndUpdate(name: desiredName), candidateData, {new: true}).then(function(updatedCandidate){
+    res.redirect("/candidates/" + updatedCandidate.name);
+  });
+
+});
+
+app.post("/candidates/:name/delete", function(req, res){
+  var desiredName = req.params.name
+  Candidate.findOneAndRemove(name: desiredName).then(function(){
+    res.redirect("/candidates/");
   });
 });
 
