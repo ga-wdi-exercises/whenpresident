@@ -16,6 +16,9 @@
   .factory("Candidate", [
     candidIndexController
   ])
+  .directive("candidateForm",
+    candidateForm
+  )
   .controller("candidIndexController", [
       "Candidate",
       candIndexController
@@ -63,6 +66,40 @@
     return Candidate;
   }
 
+  candidateForm.$inject = [ "Candidate" ];
+   function candidateForm(Candidate){
+     var directive = {};
+     directive.templateUrl = "/public/html/candidates-form.html";
+     directive.scope = {
+       candidate: "=",
+       action: "@"
+     }
+     directive.link = function(scope){
+      var originalName = $stateParams.name;
+        scope.create = function(){
+          Candidate.save({candidate: scope.candidate}, function(response){
+            var candidate = new Candidate(response);
+            Candidate.all.push(candidate);
+            $state.go("show", {name: candidate.name});
+          });
+        }
+       scope.update = function(){
+         Candidate.update({name: originalName}, {candidate: scope.candidate}, function(candidate){
+           console.log("Updated!");
+           $state.go("show", {name: candidate.name});
+         });
+       }
+       scope.delete = function(){
+         var index = Candidate.all.indexOf(scope.candidate);
+         Candidate.remove({name: originalName}, function(response){
+           Candidate.all.splice(index, 1);
+           $state.go("index");
+         });
+       }
+     }
+     return directive;
+   }
+  candIndexController.$inject = [ "Candidate" ];
   function candIndexController(Candidate){
     var vm = this;
     vm.candidates = Candidate.all;

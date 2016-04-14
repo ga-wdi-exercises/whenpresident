@@ -1,0 +1,10 @@
+<div data-ng-if="!vm.candidate">
+  <h2>That candidate couldn't be found!</h2>
+ </div>
+<div data-ng-if="vm.candidate">
+  <h2>{{vm.candidate.name}} for President in {{vm.candidate.year}}!</h2>
+   <button>Concede</button>
+   <input type="text" name="candidate[name]" placeholder="Name" data-ng-model="vm.candidate.name" />
+   <input type="number" name="candidate[year]" placeholder="Year" data-ng-model="vm.candidate.year" />
+   <button>Edit Platform</button>
+ </div>
