@@ -29,7 +29,14 @@
         templateUrl:  "/assets/html/candidates-index.html",
         controller:   "candIndexCtrl",
         controllerAs: "indexVM"
+      })
+      .state("show", {
+        url:          "/candidates/:name",
+        templateUrl:  "/assets/html/candidates-show.html",
+        controller:   "candShowCtrl",
+        controllerAs: "showVM"
       });
+
       // Default to root if path doesn't match
       $urlRouterProvider.otherwise("/");
   }
