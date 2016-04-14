@@ -1,4 +1,4 @@
 <h2>There are {{indexVM.candidates.length}} candidates</h2>
-<h3>
-  Borf for President in 2024
+<h3 data-ng-repeat="candidate in indexVM.candidates">
+  <a href="/candidates/{{candidate.name}}">{{candidate.name}} for President in {{candidate.year}}</a>
 </h3>
