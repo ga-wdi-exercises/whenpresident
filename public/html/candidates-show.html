@@ -1,0 +1,26 @@
+ <div data-ng-if="!showVM.candidate">
+  <h2>That candidate couldn't be found!</h2>
+</div>
+<div data-ng-if="showVM.candidate">
+
+  <h2>{{showVM.candidate.name}} for President in {{showVM.candidate.year}}!</h2>
+  <div data-ng-if="showVM.candidate">
+    <label for="yame">Name</label>
+    <input type="text" name="name" placeholder="Name" data-ng-model="showVM.candidate.name" />
+    <label for="year">Year</label>
+    <input type="number" name="year" placeholder="Year" data-ng-model="showVM.candidate.year" />
+    <button data-ng-click="showVM.update()">Edit Platform</button>
+    <button>Concede</button>
+  </div>
+
+  <div data-ng-repeat="position in showVM.candidate.positions">
+    <p>{{position}}</p>
+    <button data-ng-if="showVM.candidate">Change your mind</button>
+  </div>
+
+  <div data-ng-if="showVM.candidate">
+    <textarea></textarea>
+    <button>Add a position</button>
+  </div>
+
+</div>
