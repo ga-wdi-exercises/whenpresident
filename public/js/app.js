@@ -29,13 +29,13 @@
 
   function Candidate($resource){
     var Candidate = $resource("/api/candidates/:name", {}, {
-      update: { method: "PUT" }
+      update: {method: "PUT"}
     });
     Candidate.all = Candidate.query();
     Candidate.find = function(property, value, callback){
       Candidate.all.$promise.then(function(){
         Candidate.all.forEach(function(candidate){
-          if (candidate[property] == value) callback(candidate);
+          if(candidate[property] == value) callback(candidate);
         });
       });
     };
@@ -51,6 +51,11 @@
     Candidate.find("name", $stateParams.name, function(candidate){
       vm.candidate = candidate;
     });
+    vm.update = function(){
+      Candidate.update({name: vm.candidate.name}, {candidate: vm.candidate}, function(){
+        console.log("Candidate updated successfully");
+      });
+    };
   }
 
   function Router($stateProvider, $locationProvider, $urlRouterProvider){

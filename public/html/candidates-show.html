@@ -1,1 +1,6 @@
 <h2>{{showVM.candidate.name}} for President in {{showVM.candidate.year}}!</h2>
+
+<form>
+  <input type='number' name="showVM.candidate.year" data-ng-model='showVM.candidate.year'>
+  <button data-ng-click='showVM.update()'>Update</button>
+</form>
