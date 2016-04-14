@@ -38,7 +38,9 @@ app.get("/candidates/:name", function(req, res){
 });
 
 app.post("/candidates", function(req, res){
-  res.json(req.body);
+  Candidate.create(req.body.candidate).then(function(candidate){
+    res.redirect("/candidates/" + candidate.name);
+  });
 });
 
 app.listen(app.get("port"), function(){
