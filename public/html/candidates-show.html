@@ -5,7 +5,7 @@
 <div data-ng-if="showVM.candidate">
 
   <h2>{{showVM.candidate.name}} for President in {{showVM.candidate.year}}!</h2>
-  <div data-ng-if="showVM.candidate.isCurrentUser">
+  <div>
     <input type="number" placeholder="Year" data-ng-model="showVM.candidate.year"/>
     <button data-ng-click="showVM.update()">Edit Platform</button>
     <button>Concede</button>
@@ -13,10 +13,10 @@
 
   <div data-ng-repeat="position in showVM.candidate.positions">
     <p>{{position}}</p>
-    <button data-ng-if="showVM.candidate.isCurrentUser">Change your mind</button>
+    <button>Change your mind</button>
   </div>
 
-  <div data-ng-if="showVM.candidate.isCurrentUser">
+  <div>
     <textarea name="" id="" cols="30" rows="10"></textarea>
     <button>Add a position</button>
   </div>
