@@ -50,7 +50,7 @@ app.post("/candidates/:name/delete", function(req, res){
     res.redirect("/candidates")
   });
 });
-
+//testing for github
 
 app.post("/candidates/:name", function(req, res){
   Candidate.findOneAndUpdate({name: req.params.name}, req.body.candidate, res.redirect("/candidates/" + candidate.name);
