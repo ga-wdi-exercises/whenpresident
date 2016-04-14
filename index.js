@@ -1,11 +1,10 @@
 var express = require("express");
 var hbs     = require("express-handlebars");
-var db      = require("./db/connection");
+var mongoose= require("./db/connection")
 
 var app     = express();
 
 app.set("port", process.env.PORT || 3001);
-//this will set the port OR (if there is no set port) localhost:3001
 app.set("view engine", "hbs");
 app.engine(".hbs", hbs({
   extname:        ".hbs",
@@ -20,8 +19,10 @@ app.get("/", function(req, res){
 });
 
 app.get("/candidates", function(req, res){
-  res.render("candidates-index", {
-    candidates: db.candidates
+  Candidate.find({}).then(function(candidates){
+    res.render("candidates-index",{
+      candidates: candidates
+    });
   });
 });
 
