@@ -22,7 +22,9 @@
     candIndexCtrl
   ])
   .controller("candShowCtrl", [
+    "Candidate",
     "$stateParams",
+    "$window",
     candShowCtrl
   ]);
 
@@ -53,7 +55,14 @@
       update: {method: "PUT"}
     });
     Candidate.all = Candidate.query();
-    
+
+    Candidate.find = function(property, value, callback){
+      Candidate.all.$promise.then(function(){
+        Candidate.all.forEach(function(candidate){
+          if(candidate[property] == value) callback(candidate);
+        });
+      });
+    }
     return Candidate;
   }
 
@@ -62,8 +71,22 @@
     vm.candidates = Candidate.all;
   }
 
-function candShowCtrl(Candidate, $stateParams){
-  var vm = this;
-}
+  function candShowCtrl(Candidate, $stateParams, $window){
+    var vm = this;
 
+    Candidate.find("name", $stateParams.name, function(candidate){
+      vm.candidate = candidate;
+    });
+    vm.update = function(){
+      Candidate.update({name: vm.candidate.name}, {candidate: vm.candidate}, function(){
+        console.log("Yay!");
+      });
+    };
+    vm.delete = function(){
+      Candidate.remove({name: vm.candidate.name}, function(){
+        $window.location.replace("/");
+        // console.log("yo!")
+      });
+    };
+  }
 })();
