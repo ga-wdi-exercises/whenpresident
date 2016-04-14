@@ -4,6 +4,8 @@ var mongoose= require("./db/connection")
 
 var app     = express();
 
+var Candidate = mongoose.model("Candidate");
+
 app.set("port", process.env.PORT || 3001);
 app.set("view engine", "hbs");
 app.engine(".hbs", hbs({
