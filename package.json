@@ -14,8 +14,8 @@
     "express": "^4.13.4",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.13.0",
-    "mongoose": "^4.4.11",
+    "mongoose": "^4.4.12",
     "qs": "^6.1.0",
-    "request": "^2.70.0"
+    "request": "^2.71.0"
   }
 }
