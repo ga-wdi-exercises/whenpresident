@@ -1,6 +1,7 @@
 var express = require("express");
 var hbs     = require("express-handlebars");
-var mongoose= require("./db/connection")
+var mongoose= require("./db/connection");
+var parser  = require("body-parser");
 
 var app     = express();
 
@@ -15,7 +16,7 @@ app.engine(".hbs", hbs({
   defaultLayout:  "layout-main"
 }));
 app.use("/assets", express.static("public"));
-
+app.use(parser.urlencoded({extended: true}));
 app.get("/", function(req, res){
   res.render("app-welcome");
 });
