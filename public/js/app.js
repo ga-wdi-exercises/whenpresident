@@ -20,6 +20,11 @@
   .controller("candIndexCtrl", [
     "Candidate",
     candIndexCtrl
+  ])
+  .controller("candShowCtrl", [
+    "Candidate",
+    "$stateParams",
+    candShowCtrl
   ]);
 
   function Candidate($resource){
@@ -27,12 +32,25 @@
       update: { method: "PUT" }
     });
     Candidate.all = Candidate.query();
+    Candidate.find = function(property, value, callback){
+      Candidate.all.$promise.then(function(){
+        Candidate.all.forEach(function(candidate){
+          if (candidate[property] == value) callback(candidate);
+        });
+      });
+    };
     return Candidate;
   }
 
   function candIndexCtrl (Candidate){
+    this.candidates = Candidate.all;
+  }
+
+  function candShowCtrl(Candidate, $stateParams){
     var vm = this;
-    vm.candidates = Candidate.all;
+    Candidate.find("name", $stateParams.name, function(candidate){
+      vm.candidate = candidate;
+    });
   }
 
   function Router($stateProvider, $locationProvider, $urlRouterProvider){
@@ -47,6 +65,12 @@
       templateUrl: "/assets/html/candidates-index.html",
       controller: "candIndexCtrl",
       controllerAs: "indexVM"
+    })
+    .state("show", {
+      url: "/candidates/:name",
+      templateUrl: "/assets/html/candidates-show.html",
+      controller: "candShowCtrl",
+      controllerAs: "showVM"
     });
     $urlRouterProvider.otherwise("/");
   }
