@@ -36,6 +36,10 @@ app.use(session({
     mongooseConnection: mongoose.connection
   })
 }));
+app.use(function(req, res, next){
+  res.locals.current_user = (req.session.current_user || null);
+  next();
+});
 
 app.get("/login/twitter", function(req, res){
   var postData = {
@@ -110,10 +114,12 @@ app.get("/login/twitter/refresh_user_data", function(req, res){
       search_params, candidate_info, {new: true}
     ).then(function(candidate){
       if(candidate){
-        res.json({success: "updated", candidate: candidate});
+        req.session.current_user = candidate;
+        res.redirect("/");
       }else{
         Candidate.create(candidate_info).then(function(candidate){
-          res.json({success: "created", candidate: candidate});
+          req.session.current_user = candidate;
+          res.redirect("/");
         });
       }
     });

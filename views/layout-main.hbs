@@ -12,8 +12,11 @@
   <body data-ng-app="whenpresident">
     <h1><a data-ui-sref="index">When President...</a></h1>
     <nav>
+      {{#if current_user}}
+      Welcome, {{current_user.name}}! <a href="/logout" target="_top">Log out</a>
+      {{else}}
       <a href="/login/twitter" target="_top">Log in</a>
-      <a href="/logout" target="_top">Log out</a>
+      {{/if}}
     </nav>
     <main data-ui-view></main>
   </body>
