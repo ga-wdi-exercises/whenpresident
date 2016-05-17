@@ -3,6 +3,7 @@ var parser  = require("body-parser");
 var hbs     = require("express-handlebars");
 var session = require("express-session");
 var cmongo  = require("connect-mongo");
+var request = require("request");
 var mongoose= require("./db/connection");
 
 var app     = express();
@@ -34,6 +35,20 @@ app.use(session({
     mongooseConnection: mongoose.connection
   })
 }));
+
+app.get("/login/twitter", function(req, res){
+  var postData = {
+    url:    "https://api.twitter.com/oauth/request_token",
+    oauth:  {
+      callback:         process.env.t_callback_url,
+      consumer_key:     process.env.t_consumer_key,
+      consumer_secret:  process.env.t_consumer_secret
+    }
+  };
+  request.post(postData, function(err, rawResponse){
+    res.json(rawResponse);
+  });
+});
 
 app.get("/api/candidates", function(req, res){
   Candidate.find({}).then(function(candidates){
