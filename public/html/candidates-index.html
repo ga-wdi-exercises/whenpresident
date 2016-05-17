@@ -2,7 +2,3 @@
 <h3 data-ng-repeat="candidate in IndexVM.candidates">
   <a data-ui-sref="show(candidate)">{{candidate.name}} for President in {{candidate.year}}</a>
 </h3>
-
-<input type="text" placeholder="Name" data-ng-model="IndexVM.newCandidate.name" />
-<input type="number" placeholder="Year" data-ng-model="IndexVM.newCandidate.year" />
-<button data-ng-click="IndexVM.create()">Run for Office</button>

@@ -4,6 +4,7 @@
 <div data-ng-if="ShowVM.candidate">
   <h2>{{ShowVM.candidate.name}} for President in {{ShowVM.candidate.year}}!</h2>
   <button data-ng-click="ShowVM.destroy()">Concede</button>
+  <img data-ng-src="{{ShowVM.candidate.photo_url}}" />
   <input type="text" placeholder="Name" data-ng-model="ShowVM.candidate.name" />
   <input type="number" placeholder="Year" data-ng-model="ShowVM.candidate.year" />
   <button data-ng-click="ShowVM.update()">Edit Platform</button>
