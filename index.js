@@ -4,6 +4,7 @@ var hbs     = require("express-handlebars");
 var session = require("express-session");
 var cmongo  = require("connect-mongo");
 var request = require("request");
+var qstring = require("qs");
 var mongoose= require("./db/connection");
 
 var app     = express();
@@ -46,7 +47,11 @@ app.get("/login/twitter", function(req, res){
     }
   };
   request.post(postData, function(err, rawResponse){
-    res.json(rawResponse);
+    var response = qstring.parse(rawResponse.body);
+    var querystring = qstring.stringify({
+      oauth_token: response.oauth_token
+    });
+    res.redirect("https://api.twitter.com/oauth/authenticate?" + querystring);
   });
 });
 
