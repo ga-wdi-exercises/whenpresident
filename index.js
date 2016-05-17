@@ -7,6 +7,9 @@ var mongoose= require("./db/connection");
 
 var app     = express();
 var MongoSession = cmongo(session);
+var env     = require("./env.json");
+
+process.env.session_secret = env.session_secret;
 
 var Candidate = mongoose.model("Candidate");
 
@@ -21,7 +24,7 @@ app.engine(".hbs", hbs({
 app.use("/assets", express.static("public"));
 app.use(parser.json({extended: true}));
 app.use(session({
-  secret: "some random string",
+  secret: process.env.session_secret,
   resave: false,
   saveUninitialized: false,
   store: new MongoSession({
