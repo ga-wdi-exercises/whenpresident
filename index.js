@@ -75,7 +75,16 @@ app.get("/login/twitter/callback", function(req, res){
     }
   };
   request.post(postData, function(err, rawResponse){
-    res.json(rawResponse);
+    var response = qstring.parse(rawResponse.body);
+    req.session.t_user_id           = response.user_id;
+    req.session.t_screen_name       = response.screen_name;
+    req.session.t_oauth_data        = {
+      token:            response.oauth_token,
+      token_secret:     response.oauth_token_secret,
+      consumer_key:     process.env.t_consumer_key,
+      consumer_secret:  process.env.t_consumer_secret
+    };
+    res.json(req.session);
   });
 });
 
