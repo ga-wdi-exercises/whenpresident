@@ -51,8 +51,19 @@ app.get("/login/twitter", function(req, res){
     var querystring = qstring.stringify({
       oauth_token: response.oauth_token
     });
+    req.session.temp_token  = response.oauth_token;
+    req.session.temp_secret = response.oauth_token_secret;
     res.redirect("https://api.twitter.com/oauth/authenticate?" + querystring);
   });
+});
+
+app.get("/logout", function(req, res){
+  req.session.destroy();
+  res.redirect("/");
+});
+
+app.get("/login/twitter/callback", function(req, res){
+  res.json(req.session);
 });
 
 app.get("/api/candidates", function(req, res){
