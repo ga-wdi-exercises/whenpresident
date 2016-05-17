@@ -18,10 +18,6 @@ app.engine(".hbs", hbs({
 app.use("/assets", express.static("public"));
 app.use(parser.urlencoded({extended: true}));
 
-app.get("/", function(req, res){
-  res.render("layout-main", {layout: false});
-});
-
 app.get("/api/candidates", function(req, res){
   Candidate.find({}).then(function(candidates){
     res.json(candidates);
@@ -50,6 +46,10 @@ app.post("/candidates/:name", function(req, res){
   Candidate.findOneAndUpdate({name: req.params.name}, req.body.candidate, {new: true}).then(function(candidate){
     res.redirect("/candidates/" + candidate.name);
   });
+});
+
+app.get("/*", function(req, res){
+  res.render("layout-main", {layout: false});
 });
 
 app.listen(app.get("port"), function(){
