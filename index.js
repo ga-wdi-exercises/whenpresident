@@ -42,9 +42,9 @@ app.post("/candidates/:name/delete", function(req, res){
   });
 });
 
-app.post("/candidates/:name", function(req, res){
-  Candidate.findOneAndUpdate({name: req.params.name}, req.body.candidate, {new: true}).then(function(candidate){
-    res.redirect("/candidates/" + candidate.name);
+app.put("/api/candidates/:name", function(req, res){
+  Candidate.findOneAndUpdate(req.params, req.body, {new: true}).then(function(candidate){
+    res.json(candidate);
   });
 });
 
