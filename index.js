@@ -63,7 +63,20 @@ app.get("/logout", function(req, res){
 });
 
 app.get("/login/twitter/callback", function(req, res){
-  res.json(req.session);
+  var querystring = qstring.parse(req.query);
+  var postData = {
+    url: "https://api.twitter.com/oauth/access_token",
+    oauth: {
+      consumer_key:     process.env.t_consumer_key,
+      consumer_secret:  process.env.t_consumer_secret,
+      token:            req.session.temp_token,
+      token_secret:     req.session.temp_secret,
+      verifier:         querystring.oauth_verifier
+    }
+  };
+  request.post(postData, function(err, rawResponse){
+    res.json(rawResponse);
+  });
 });
 
 app.get("/api/candidates", function(req, res){
