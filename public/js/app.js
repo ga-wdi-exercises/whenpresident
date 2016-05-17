@@ -49,13 +49,10 @@
     var vm = this;
     vm.candidate = Candidate.get($stateParams);
     vm.update = function(){
-      Candidate.update($stateParams, vm.candidate, function(candidate){
-        $state.go("show", candidate);
-      });
-    }
-    vm.destroy = function(){
-      Candidate.remove($stateParams, function(){
-        $state.go("index");
+      Candidate.update($stateParams, vm.candidate, function(response){
+        if(!response.failure){
+          $state.go("show", candidate);
+        }
       });
     }
   }

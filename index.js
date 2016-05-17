@@ -138,16 +138,31 @@ app.get("/api/candidates/:name", function(req, res){
   });
 });
 
-app.delete("/api/candidates/:name", function(req, res){
-  Candidate.findOneAndRemove(req.params).then(function(){
-    res.json({success: true});
-  });
+app.get("/user/destroy", function(req, res){
+  if(req.session.current_user){
+    Candidate.findOneAndRemove(req.session.current_user).then(function(){
+      req.session.destroy();
+      res.redirect("/");
+    });
+  }else{
+    res.redirect("/");
+  }
 });
 
 app.put("/api/candidates/:name", function(req, res){
-  Candidate.findOneAndUpdate(req.params, req.body, {new: true}).then(function(candidate){
-    res.json(candidate);
-  });
+  if(req.session.current_user){
+    Candidate.findOne(req.params).then(function(candidate){
+      if(candidate._id !== req.session.current_user._id){
+        res.json({failure: true});
+      }else{
+        Candidate.update(candidate, req.body, {new: true}).then(function(candidate){
+          res.json(candidate);
+        });
+      }
+    });
+  }else{
+    res.json({failure: true});
+  }
 });
 
 app.get("/*", function(req, res){
