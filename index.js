@@ -10,6 +10,9 @@ var MongoSession = cmongo(session);
 var env     = require("./env.json");
 
 process.env.session_secret = env.session_secret;
+process.env.t_callback_url = env.t_callback_url;
+process.env.t_consumer_key = env.t_consumer_key;
+process.env.t_consumer_secret = env.t_consumer_secret;
 
 var Candidate = mongoose.model("Candidate");
 
