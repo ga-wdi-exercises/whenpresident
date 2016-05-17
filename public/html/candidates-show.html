@@ -3,7 +3,7 @@
 </div>
 <div data-ng-if="ShowVM.candidate">
   <h2>{{ShowVM.candidate.name}} for President in {{ShowVM.candidate.year}}!</h2>
-  <button>Concede</button>
+  <button data-ng-click="ShowVM.destroy()">Concede</button>
   <input type="text" placeholder="Name" data-ng-model="ShowVM.candidate.name" />
   <input type="number" placeholder="Year" data-ng-model="ShowVM.candidate.year" />
   <button data-ng-click="ShowVM.update()">Edit Platform</button>

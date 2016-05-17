@@ -58,5 +58,10 @@
         $state.go("show", candidate);
       });
     }
+    vm.destroy = function(){
+      Candidate.remove($stateParams, function(){
+        $state.go("index");
+      });
+    }
   }
 })();

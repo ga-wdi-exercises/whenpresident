@@ -36,9 +36,9 @@ app.post("/api/candidates", function(req, res){
   });
 });
 
-app.post("/candidates/:name/delete", function(req, res){
-  Candidate.findOneAndRemove({name: req.params.name}).then(function(){
-    res.redirect("/candidates")
+app.delete("/api/candidates/:name", function(req, res){
+  Candidate.findOneAndRemove(req.params).then(function(){
+    res.json({success: true});
   });
 });
 
