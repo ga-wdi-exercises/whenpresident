@@ -1,9 +1,12 @@
 var express = require("express");
 var parser  = require("body-parser");
 var hbs     = require("express-handlebars");
+var session = require("express-session");
+var cmongo  = require("connect-mongo");
 var mongoose= require("./db/connection");
 
 var app     = express();
+var MongoSession = cmongo(session);
 
 var Candidate = mongoose.model("Candidate");
 
@@ -17,6 +20,14 @@ app.engine(".hbs", hbs({
 }));
 app.use("/assets", express.static("public"));
 app.use(parser.json({extended: true}));
+app.use(session({
+  secret: "some random string",
+  resave: false,
+  saveUninitialized: false,
+  store: new MongoSession({
+    mongooseConnection: mongoose.connection
+  })
+}));
 
 app.get("/api/candidates", function(req, res){
   Candidate.find({}).then(function(candidates){
