@@ -98,7 +98,25 @@ app.get("/login/twitter/refresh_user_data", function(req, res){
     }
   };
   request.get(apiRequestParameters, function(err, response){
-    res.json(response.body);
+    var candidate_info  = {
+      name:         response.body.name,
+      screen_name:  response.body.screen_name,
+      photo_url:    response.body.profile_image_url
+    };
+    var search_params   = {
+      screen_name:  response.body.screen_name
+    };
+    Candidate.findOneAndUpdate(
+      search_params, candidate_info, {new: true}
+    ).then(function(candidate){
+      if(candidate){
+        res.json({success: "updated", candidate: candidate});
+      }else{
+        Candidate.create(candidate_info).then(function(candidate){
+          res.json({success: "created", candidate: candidate});
+        });
+      }
+    });
   });
 })
 
