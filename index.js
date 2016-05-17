@@ -16,7 +16,7 @@ app.engine(".hbs", hbs({
   defaultLayout:  "layout-main"
 }));
 app.use("/assets", express.static("public"));
-app.use(parser.urlencoded({extended: true}));
+app.use(parser.json({extended: true}));
 
 app.get("/api/candidates", function(req, res){
   Candidate.find({}).then(function(candidates){
@@ -30,9 +30,9 @@ app.get("/api/candidates/:name", function(req, res){
   });
 });
 
-app.post("/candidates", function(req, res){
-  Candidate.create(req.body.candidate).then(function(candidate){
-    res.redirect("/candidates/" + candidate.name);
+app.post("/api/candidates", function(req, res){
+  Candidate.create(req.body).then(function(candidate){
+    res.json(candidate);
   });
 });
 

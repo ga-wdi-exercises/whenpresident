@@ -40,6 +40,11 @@
   function Index(Candidate){
     var vm = this;
     vm.candidates = Candidate.query();
+    vm.create = function(){
+      Candidate.save(vm.newCandidate, function(candidate){
+        vm.candidates.push(candidate);
+      });
+    }
   }
   
   Show.$inject = ["Candidate", "$stateParams"];
