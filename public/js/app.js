@@ -13,7 +13,7 @@
     $stateProvider
     .state("index", {
       url: "/",
-      template: "This is the index page"
+      templateUrl: "/assets/html/candidates-index.html"
     })
     .state("show", {
       url: "/:name",
