@@ -28,11 +28,9 @@ app.get("/api/candidates", function(req, res){
   });
 });
 
-app.get("/candidates/:name", function(req, res){
-  Candidate.findOne({name: req.params.name}).then(function(candidate){
-    res.render("candidates-show", {
-      candidate: candidate
-    });
+app.get("/api/candidates/:name", function(req, res){
+  Candidate.findOne(req.params).then(function(candidate){
+    res.json(candidate);
   });
 });
 

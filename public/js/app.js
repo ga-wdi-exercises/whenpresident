@@ -8,6 +8,7 @@
   ])
   .config(Router)
   .factory("Candidate", Candidate)
+  .controller("Show", Show)
   .controller("Index", Index);
   
   Router.$inject = ["$stateProvider"];
@@ -21,7 +22,9 @@
     })
     .state("show", {
       url: "/:name",
-      template: "This is the show page"
+      templateUrl:  "/assets/html/candidates-show.html",
+      controller:   "Show",
+      controllerAs: "ShowVM"
     });
   }
   
@@ -35,5 +38,11 @@
   function Index(Candidate){
     var vm = this;
     vm.candidates = Candidate.query();
+  }
+  
+  Show.$inject = ["Candidate", "$stateParams"];
+  function Show(Candidate, $stateParams){
+    var vm = this;
+    vm.candidate = Candidate.get($stateParams);
   }
 })();
