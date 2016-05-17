@@ -84,9 +84,23 @@ app.get("/login/twitter/callback", function(req, res){
       consumer_key:     process.env.t_consumer_key,
       consumer_secret:  process.env.t_consumer_secret
     };
-    res.json(req.session);
+    res.redirect("/login/twitter/refresh_user_data");
   });
 });
+
+app.get("/login/twitter/refresh_user_data", function(req, res){
+  var apiRequestParameters = {
+    url:    "https://api.twitter.com/1.1/users/show.json",
+    json:   true,
+    oauth:  req.session.t_oauth_data,
+    qs:     {
+      screen_name: req.session.t_screen_name
+    }
+  };
+  request.get(apiRequestParameters, function(err, response){
+    res.json(response.body);
+  });
+})
 
 app.get("/api/candidates", function(req, res){
   Candidate.find({}).then(function(candidates){
