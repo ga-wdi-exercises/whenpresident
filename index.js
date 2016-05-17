@@ -138,6 +138,10 @@ app.get("/api/candidates/:name", function(req, res){
   });
 });
 
+app.get("/user", function(req, res){
+  res.json(req.session.current_user || {failure: true});
+});
+
 app.get("/user/destroy", function(req, res){
   if(req.session.current_user){
     Candidate.findOneAndRemove(req.session.current_user).then(function(){
