@@ -7,6 +7,7 @@
     "ngResource"
   ])
   .config(Router)
+  .factory("Candidate", Candidate)
   .controller("Index", Index);
   
   Router.$inject = ["$stateProvider"];
@@ -24,22 +25,15 @@
     });
   }
   
-  Index.$inject = [];
-  function Index(){
+  Candidate.$inject = ["$resource"];
+  function Candidate($resource){
+    var Candidate = $resource("/api/candidates/:name");
+    return Candidate;
+  }
+  
+  Index.$inject = ["Candidate"];
+  function Index(Candidate){
     var vm = this;
-    vm.candidates = [
-      {
-        "name": "Steve",
-        "year": 2024
-      },
-      {
-        "name": "Barry",
-        "year": 2008
-      },
-      {
-        "name": "Dubya",
-        "year": 2000
-      }
-    ];
+    vm.candidates = Candidate.query();
   }
 })();

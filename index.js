@@ -22,11 +22,9 @@ app.get("/", function(req, res){
   res.render("layout-main", {layout: false});
 });
 
-app.get("/candidates", function(req, res){
+app.get("/api/candidates", function(req, res){
   Candidate.find({}).then(function(candidates){
-    res.render("candidates-index", {
-      candidates: candidates
-    });
+    res.json(candidates);
   });
 });
 
