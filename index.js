@@ -19,7 +19,7 @@ app.use("/assets", express.static("public"));
 app.use(parser.urlencoded({extended: true}));
 
 app.get("/", function(req, res){
-  res.render("app-welcome");
+  res.render("layout-main", {layout: false});
 });
 
 app.get("/candidates", function(req, res){
