@@ -1,11 +1,10 @@
-
-<h2>That candidate couldn't be found!</h2>
-
-<h2>{{candidate.name}} for President in {{candidate.year}}!</h2>
-
-  <button type="submit">Concede</button>
-
-
-  <input type="text" name="candidate[name]" placeholder="Name" value="{{candidate.name}}" />
-  <input type="number" name="candidate[year]" placeholder="Year" value="{{candidate.year}}" />
-  <button type="submit">Edit Platform</button>
+<div data-ng-if="!ShowVM.candidate">
+  <h2>That candidate couldn't be found!</h2>
+</div>
+<div data-ng-if="ShowVM.candidate">
+  <h2>{{ShowVM.candidate.name}} for President in {{ShowVM.candidate.year}}!</h2>
+  <button>Concede</button>
+  <input type="text" placeholder="Name" data-ng-model="ShowVM.candidate.name" />
+  <input type="number" placeholder="Year" data-ng-model="ShowVM.candidate.year" />
+  <button>Edit Platform</button>
+</div>
