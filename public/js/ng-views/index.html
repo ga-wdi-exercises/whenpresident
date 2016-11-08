@@ -1,6 +1,10 @@
-<h2>All Candidates</h2>
+<h2>{{vm.candidates.length}} Candidates</h2>
 
-<div class="candidates"></div>
+<div class="candidates">
+  <h3 data-ng-repeat="candidate in vm.candidates">
+    <a data-ui-sref="show">{{candidate.name}} for President in {{candidate.year}}</a>
+  </h2>
+</div>
 
 <form action="/candidates" method="post">
   <input type="text" name="candidate[name]" placeholder="Name" />
