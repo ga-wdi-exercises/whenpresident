@@ -2,7 +2,7 @@
 
 <div class="candidates">
   <h3 data-ng-repeat="candidate in vm.candidates">
-    <a data-ui-sref="show">{{candidate.name}} for President in {{candidate.year}}</a>
+    <a data-ui-sref="show({name: candidate.name})">{{candidate.name}} for President in {{candidate.year}}</a>
   </h2>
 </div>
 

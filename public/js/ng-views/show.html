@@ -1,0 +1,7 @@
+<div ng-if="!vm.candidate">
+  <h2>That Candidate Has Dropped Out!</h2>
+</div>
+
+<div ng-if="vm.candidate">
+  <h2>{{vm.candidate.name}} for President in {{vm.candidate.year}}!</h2>
+</div>

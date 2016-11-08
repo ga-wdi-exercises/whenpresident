@@ -15,6 +15,11 @@ angular
     "Candidate",
     indexController
   ])
+  .controller("showCtrl", [
+    "$stateParams",
+    "Candidate",
+    showController
+  ])
 
   function Router ($stateProvider) {
     $stateProvider
@@ -28,6 +33,12 @@ angular
         controller: "indexCtrl",
         controllerAs: "vm"
       })
+      .state("show", {
+        url: "/candidates/:name",
+        templateUrl: "/assets/js/ng-views/show.html",
+        controller: "showCtrl",
+        controllerAs: "vm"
+      })
   }
 
   function Candidate ($resource) {
@@ -38,4 +49,8 @@ angular
 
   function indexController (Candidate) {
     this.candidates = Candidate.query()
+  }
+
+  function showController ($stateParams, Candidate) {
+    this.candidate = Candidate.get({name: $stateParams.name})
   }
