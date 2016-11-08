@@ -1,1 +1,5 @@
-console.log("Working!");
+angular
+  .module("whenPresident", [
+    "ui.router",
+    "ngResource"
+  ])
