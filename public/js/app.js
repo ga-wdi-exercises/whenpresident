@@ -14,4 +14,8 @@ angular
         url: "/",
         templateUrl: "/assets/js/ng-views/welcome.html"
       })
+      .state("index", {
+        url: "/candidates",
+        templateUrl: "/assets/js/ng-views/index.html"
+      })
   }
