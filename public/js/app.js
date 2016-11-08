@@ -6,6 +6,7 @@ angular
   .config([
     "$stateProvider",
     "$locationProvider",
+    "$urlRouterProvider",
     Router
   ])
   .factory("Candidate", [
@@ -24,7 +25,7 @@ angular
     showController
   ])
 
-  function Router ($stateProvider, $locationProvider) {
+  function Router ($stateProvider, $locationProvider, $urlRouterProvider) {
     $locationProvider.html5Mode(true)
     $stateProvider
       .state("welcome", {
@@ -43,6 +44,7 @@ angular
         controller: "showCtrl",
         controllerAs: "vm"
       })
+    $urlRouterProvider.otherwise("/")
   }
 
   function Candidate ($resource) {
