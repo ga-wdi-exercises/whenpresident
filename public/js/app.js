@@ -5,6 +5,7 @@ angular
   ])
   .config([
     "$stateProvider",
+    "$locationProvider",
     Router
   ])
   .factory("Candidate", [
@@ -23,7 +24,8 @@ angular
     showController
   ])
 
-  function Router ($stateProvider) {
+  function Router ($stateProvider, $locationProvider) {
+    $locationProvider.html5Mode(true)
     $stateProvider
       .state("welcome", {
         url: "/",

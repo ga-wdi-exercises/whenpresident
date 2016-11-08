@@ -18,10 +18,6 @@ app.engine(".hbs", hbs({
 app.use("/assets", express.static("public"));
 app.use(parser.json({extended: true}));
 
-app.get("/", function(req, res){
-  res.render("candidates");
-});
-
 app.get("/api/candidates", function(req, res){
   Candidate.find({}).then(function(candidates){
     res.json(candidates)
@@ -50,6 +46,10 @@ app.put("/api/candidates/:name", function(req, res){
   Candidate.findOneAndUpdate({name: req.params.name}, req.body, {new: true}).then(function(candidate){
     res.json(candidate)
   });
+});
+
+app.get("/*", function(req, res){
+  res.render("candidates");
 });
 
 app.listen(app.get("port"), function(){
