@@ -17,6 +17,7 @@ angular
     indexController
   ])
   .controller("showCtrl", [
+    "$state",
     "$stateParams",
     "Candidate",
     showController
@@ -58,9 +59,14 @@ angular
     }
   }
 
-  function showController ($stateParams, Candidate) {
+  function showController ($state, $stateParams, Candidate) {
     this.candidate = Candidate.get({name: $stateParams.name})
     this.update = function () {
       this.candidate.$update({name: $stateParams.name})
+    }
+    this.destroy = function () {
+      this.candidate.$delete({name: $stateParams.name}).then(function(){
+        $state.go("index")
+      })
     }
   }
