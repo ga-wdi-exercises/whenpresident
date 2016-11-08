@@ -6,8 +6,8 @@
   </h2>
 </div>
 
-<form action="/candidates" method="post">
-  <input type="text" name="candidate[name]" placeholder="Name" />
-  <input type="number" name="candidate[year]" placeholder="Year" />
+<form ng-submit="vm.create()">
+  <input type="text" ng-model="vm.newCandidate.name" placeholder="Name" />
+  <input type="number" ng-model="vm.newCandidate.year" placeholder="Year" />
   <button type="submit">Run for Office</button>
 </form>

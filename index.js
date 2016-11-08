@@ -16,7 +16,7 @@ app.engine(".hbs", hbs({
   defaultLayout:  "layout-main"
 }));
 app.use("/assets", express.static("public"));
-app.use(parser.urlencoded({extended: true}));
+app.use(parser.json({extended: true}));
 
 app.get("/", function(req, res){
   res.render("candidates");
@@ -35,9 +35,9 @@ app.get("/api/candidates/:name", function(req, res){
 });
 
 app.post("/api/candidates", function(req, res){
-  Candidate.create(req.body.candidate).then(function(candidate){
+  Candidate.create(req.body).then(function(candidate){
     res.json(candidate)
-  });
+  })
 });
 
 app.delete("/api/candidates/:name", function(req, res){

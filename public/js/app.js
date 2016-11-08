@@ -12,6 +12,7 @@ angular
     Candidate
   ])
   .controller("indexCtrl", [
+    "$state",
     "Candidate",
     indexController
   ])
@@ -47,8 +48,14 @@ angular
     });
   }
 
-  function indexController (Candidate) {
+  function indexController ($state, Candidate) {
     this.candidates = Candidate.query()
+    this.newCandidate = new Candidate()
+    this.create = function () {
+      this.newCandidate.$save().then(function(candidate){
+        $state.go("show", { name: candidate.name })
+      })
+    }
   }
 
   function showController ($stateParams, Candidate) {
