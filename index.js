@@ -16,43 +16,39 @@ app.engine(".hbs", hbs({
   defaultLayout:  "layout-main"
 }));
 app.use("/assets", express.static("public"));
-app.use(parser.urlencoded({extended: true}));
+app.use(parser.json({extended: true}));
 
 app.get("/", function(req, res){
   res.render("candidates");
 });
 
-app.get("/candidates", function(req, res){
+app.get("/api/candidates", function(req, res){
   Candidate.find({}).then(function(candidates){
-    res.render("candidates-index", {
-      candidates: candidates
-    });
+    res.json(candidates)
   });
 });
 
-app.get("/candidates/:name", function(req, res){
+app.get("/api/candidates/:name", function(req, res){
   Candidate.findOne({name: req.params.name}).then(function(candidate){
-    res.render("candidates-show", {
-      candidate: candidate
-    });
+    res.json(candidate)
   });
 });
 
-app.post("/candidates", function(req, res){
-  Candidate.create(req.body.candidate).then(function(candidate){
-    res.redirect("/candidates/" + candidate.name);
-  });
+app.post("/api/candidates", function(req, res){
+  Candidate.create(req.body).then(function(candidate){
+    res.json(candidate)
+  })
 });
 
-app.post("/candidates/:name/delete", function(req, res){
+app.delete("/api/candidates/:name", function(req, res){
   Candidate.findOneAndRemove({name: req.params.name}).then(function(){
-    res.redirect("/candidates")
+    res.json({ success: true })
   });
 });
 
-app.post("/candidates/:name", function(req, res){
-  Candidate.findOneAndUpdate({name: req.params.name}, req.body.candidate, {new: true}).then(function(candidate){
-    res.redirect("/candidates/" + candidate.name);
+app.put("/api/candidates/:name", function(req, res){
+  Candidate.findOneAndUpdate({name: req.params.name}, req.body, {new: true}).then(function(candidate){
+    res.json(candidate)
   });
 });
 

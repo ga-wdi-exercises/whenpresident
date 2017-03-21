@@ -1,0 +1,7 @@
+<h2>{{vm.candidate.name}} for President in {{vm.candidate.year}}</h2>
+
+
+<input type="text" ng-model="vm.candidate.name" placeholder="Name" />
+<input type="number" ng-model="vm.candidate.year" placeholder="Year" />
+<button data-ng-click="vm.update()">Edit Platform</button>
+<button data-ng-click="vm.destroy()">Concede</button>

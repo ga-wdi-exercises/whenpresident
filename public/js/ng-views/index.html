@@ -1,0 +1,12 @@
+<h2>All Candidates</h2>
+
+<h2 data-ng-repeat="candidate in vm.candidates">
+<a data-ui-sref="show({name: candidate.name})">{{candidate.name}} for President in {{candidate.year}}</a>
+</h2>
+
+
+<form ng-submit="vm.create()">
+  <input type="text" ng-model="vm.newCandidate.name" placeholder="Name" />
+  <input type="number" ng-model="vm.newCandidate.year" placeholder="Year" />
+  <button type="submit">Run for Office</button>
+</form>
