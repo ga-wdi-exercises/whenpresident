@@ -1,9 +1,10 @@
-var express = require("express");
-var parser  = require("body-parser");
-var hbs     = require("express-handlebars");
-var mongoose= require("./db/connection");
+var express  = require("express");
+var morgan   = require('morgan');
+var parser   = require("body-parser");
+var hbs      = require("express-handlebars");
+var mongoose = require("./db/connection");
 
-var app     = express();
+var app = express();
 
 var Candidate = mongoose.model("Candidate");
 
@@ -16,7 +17,8 @@ app.engine(".hbs", hbs({
   defaultLayout:  "layout-main"
 }));
 app.use("/assets", express.static("public"));
-app.use(parser.json({extended: true}));
+app.use(parser.json());
+app.use(morgan('tiny'));
 
 app.get("/api/candidates", function(req, res){
   Candidate.find({}).then(function(candidates){
